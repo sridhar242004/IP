@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextGen IP Shield | Secure, Transparent, and Decentralized</title>
+    <style>
+        :root {
+            --primary-color: #3a0ca3;
+            --secondary-color: #4cc9f0;
+            --text-color: #f7fff7;
+            --background-color: #001233;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(0, 18, 51, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary-color);
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .hero-background video {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 18, 51, 0.6);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero-content p {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 32px;
+            background-color: var(--secondary-color);
+            color: var(--background-color);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            font-size: 18px;
+            box-shadow: 0 10px 20px rgba(76, 201, 240, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease 0.6s forwards;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(76, 201, 240, 0.5);
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #features {
+            padding: 120px 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #3a0ca3, #4cc9f0);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover:before {
+            opacity: 1;
+        }
+
+        .feature-card:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        #how-it-works {
+            padding: 120px 0;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .blockchain-visual {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .block {
+            width: 200px;
+            background-color: var(--primary-color);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .block:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .block:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .block h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .block p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .block-link {
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary-color);
+            align-self: center;
+        }
+
+        #marketplace {
+            padding: 120px 0;
+        }
+
+        .marketplace-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .ip-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .ip-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .ip-card:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .ip-card:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        .ip-card:nth-child(5) {
+            animation-delay: 0.8s;
+        }
+
+        .ip-card:nth-child(6) {
+            animation-delay: 1s;
+        }
+
+        .ip-card:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #3a0ca3, #4cc9f0);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .ip-card:hover:before {
+            opacity: 1;
+        }
+
+        .ip-card:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .ip-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .ip-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .ip-card p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .purchase-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--secondary-color);
+            color: var(--background-color);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            font-size: 16px;
+            box-shadow: 0 10px 20px rgba(76, 201, 240, 0.3);
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .purchase-button:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: width 0.3s ease;
+        }
+
+        .purchase-button:hover:before {
+            width: 100%;
+        }
+
+        .purchase-button:hover {
+            background-color: #3a0ca3;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(76, 201, 240, 0.5);
+        }
+
+        #testimonials {
+            padding: 120px 0;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .testimonial-carousel {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .testimonial-carousel:before,
+        .testimonial-carousel:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 100px;
+            height: 100%;
+            background: linear-gradient(to right, var(--background-color), transparent);
+            z-index: 1;
+        }
+
+        .testimonial-carousel:before {
+            left: 0;
+        }
+
+        .testimonial-carousel:after {
+            right: 0;
+            transform: rotate(180deg);
+        }
+
+        .testimonial {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .testimonial.active {
+            opacity: 1;
+        }
+
+        .testimonial p {
+            font-size: 1.8rem;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .testimonial h4 {
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        #explorer {
+            padding: 120px 0;
+        }
+
+        #explorer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-top: 50px;
+        }
+
+        #latest-blocks {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            overflow-y: auto;
+            max-height: 500px;
+        }
+
+        .explorer-block {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .explorer-block:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .explorer-block:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .explorer-block:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        .explorer-block:nth-child(5) {
+            animation-delay: 0.8s;
+        }
+
+        .explorer-block:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #3a0ca3, #4cc9f0);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .explorer-block:hover:before {
+            opacity: 1;
+        }
+        
+        .explorer-block:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            z-index: -1;
+        }
+        
+        .explorer-block h4,
+        .explorer-block p {
+            position: relative;
+            z-index: 1;
+        }
+        
+        #transaction-details {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-left: 40px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        #transaction-details h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        #transaction-details p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .footer-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .social-icons a {
+            color: var(--text-color);
+            font-size: 28px;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--secondary-color);
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+        
+            .hero-content p {
+                font-size: 1.5rem;
+            }
+        
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        
+            .marketplace-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        
+            #explorer-content {
+                flex-direction: column;
+            }
+        
+            #transaction-details {
+                margin-left: 0;
+                margin-top: 40px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 20px;
+            }
+        
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+        
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+        
+            .cta-button {
+                padding: 12px 24px;
+                font-size: 16px;
+            }
+        
+            .feature-card {
+                padding: 30px;
+            }
+        
+            .ip-card {
+                padding: 30px;
+            }
+        
+            .testimonial p {
+                font-size: 1.5rem;
+            }
+        
+            .testimonial h4 {
+                font-size: 1.2rem;
+            }
+        }
+        </style>
+        </head>
+        <body>
+            <header>
+                <nav class="container">
+                    <div class="logo">NextGen IP Shield</div>
+                    <div class="nav-links">
+                        <a href="#hero">Home</a>
+                        <a href="#features">Features</a>
+                        <a href="#how-it-works">How It Works</a>
+                        <a href="#marketplace">Marketplace</a>
+                        <a href="#testimonials">Testimonials</a>
+                        <a href="#explorer">Explorer</a>
+                    </div>
+                </nav>
+            </header>
+        
+            <main>
+                <section id="hero">
+                    <div class="hero-background">
+                        <video autoplay loop muted>
+                            <source src="hero-background.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="hero-overlay"></div>
+                    <div class="container">
+                        <div class="hero-content">
+                            <h1>Welcome to the Future of IP Protection</h1>
+                            <p>Secure, Transparent, and Decentralized.</p>
+                            <a href="#features" class="cta-button">Learn More</a>
+                        </div>
+                    </div>
+                </section>
+        
+                <section id="features" class="container">
+                    <h2>Key Features</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🔐</div>
+                            <h3>Secure Registration</h3>
+                            <p>Register your IP on the blockchain with unparalleled security</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">✅</div>
+                            <h3>Instant Verification</h3>
+                            <p>Verify ownership and authenticity in real-time</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">⚖️</div>
+                            <h3>Smart Dispute Resolution</h3>
+                            <p>Resolve conflicts efficiently with our decentralized system</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">💹</div>
+                            <h3>Global Marketplace</h3>
+                            <p>Buy, sell, and license IP securely on our platform</p>
+                        </div>
+                    </div>
+                </section>
+        
+                <section id="how-it-works" class="container">
+                    <h2>How It Works</h2>
+                    <div class="blockchain-visual">
+                        <div class="block">
+                            <h3>Block 1</h3>
+                            <p>Hash: 0x123</p>
+                        </div>
+                        <div class="block-link"></div>
+                        <div class="block">
+                            <h3>Block 2</h3>
+                            <p>Hash: 0x456</p>
+                        </div>
+                        <div class="block-link"></div>
+                        <div class="block">
+                            <h3>Block 3</h3>
+                            <p>Hash: 0x789</p>
+                        </div>
+                    </div>
+                </section>
+        
+                <section id="marketplace" class="container">
+                    <h2>IP Marketplace</h2>
+                    <div class="marketplace-grid">
+                        <div class="ip-card">
+                            <h3>Revolutionary AI Algorithm</h3>
+                            <p>Price: 5 ETH</p>
+                            <a href="#" class="purchase-button">Purchase</a>
+                        </div>
+                        <div class="ip-card">
+                            <h3>Innovative Green Energy Patent</h3>
+                            <p>Price: 10 ETH</p>
+                            <a href="#" class="purchase-button">Purchase</a>
+                        </div>
+                        <div class="ip-card">
+                            <h3>Cutting-edge Biotech Process</h3>
+                            <p>Price: 7.5 ETH</p>
+                            <a href="#" class="purchase-button">Purchase</a>
+                        </div>
+                        <div class="ip-card">
+                            <h3>Next-Gen Quantum Computing Method</h3>
+                            <p>Price: 15 ETH</p>
+                            <a href="#" class="purchase-button">Purchase</a>
+                        </div>
+                        <div class="ip-card">
+                            <h3>Advanced Machine Learning Model</h3>
+                            <p>Price: 8 ETH</p>
+                            <a href="#" class="purchase-button">Purchase</a>
+                        </div>
+                        <div class="ip-card">
+                            <h3>Innovative Blockchain Protocol</h3>
+                            <p>Price: 12 ETH</p>
+                            <a href="#" class="purchase-button">Purchase</a>
+                        </div>
+                    </div>
+                </section>
+        
+                <section id="testimonials" class="container">
+                    <h2>What Our Users Say</h2>
+                    <div class="testimonial-carousel">
+                        <div class="testimonial active">
+                            <p>"NextGen IP Shield has revolutionized how I protect my intellectual property. It's secure, transparent, and incredibly easy to use."</p>
+                            <h4>John Doe</h4>
+                        </div>
+                        <div class="testimonial">
+                            <p>"As an innovator, I've always worried about IP protection. This platform gives me peace of mind and opens up new opportunities for collaboration."</p>
+                            <h4>Jane Smith</h4>
+                        </div>
+                        <div class="testimonial">
+                            <p>"The blockchain integration is brilliant. It provides an immutable record of my research, which is crucial in the fast-paced world of academia."</p>
+                            <h4>Dr. Robert Johnson</h4>
+                        </div>
+                    </div>
+                </section>
+        
+                <section id="explorer" class="container">
+                    <h2>Blockchain Explorer</h2>
+                    <div id="explorer-content">
+                        <div id="latest-blocks">
+                            <div class="explorer-block">
+                                <h4>Block #123456</h4>
+                                <p>Transactions: 78</p>
+                                <p>Timestamp: July 15, 2024</p>
+                            </div>
+                            <div class="explorer-block">
+                                <h4>Block #123455</h4>
+                                <p>Transactions: 92</p>
+                                <p>Timestamp: July 14, 2024</p>
+                            </div>
+                            <div class="explorer-block">
+                                <h4>Block #123454</h4>
+                                <p>Transactions: 64</p>
+                                <p>Timestamp: July 13, 2024</p>
+                            </div>
+                            <div class="explorer-block">
+                                <h4>Block #123453</h4>
+                                <p>Transactions: 81</p>
+                                <p>Timestamp: July 12, 2024</p>
+                            </div>
+                            <div class="explorer-block">
+                                <h4>Block #123452</h4>
+                                <p>Transactions: 70</p>
+                                <p>Timestamp: July 11, 2024</p>
+                            </div>
+                        </div>
+                        <div id="transaction-details">
+                            <h3>Transaction Details</h3>
+                            <p>Hash: 0x123456789abcdef0123456789abcdef</p>
+                            <p>From: 0x1234567890abcdef1234567890abcdef</p>
+                            <p>To: 0x0987654321fedcba0987654321fedcba</p>
+                            <p>Block: 123456</p>
+                            <p>Timestamp: July 15, 2024, 10:30 AM</p>
+                            <p>Value: 5 ETH</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        
+            <footer>
+                <div class="container footer-content">
+                    <div class="footer-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Contact Us</a>
+                    </div>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="LinkedIn">💼</a>
+                    </div>
+                </div>
+            </footer>
+        
+            <script>
+                // Animate hero content
+                const heroContent = document.querySelector('.hero-content');
+                const heroElements = heroContent.children;
+        
+                for (let i = 0; i < heroElements.length; i++) {
+                    setTimeout(() => {
+                        heroElements[i].style.opacity = '1';
+                        heroElements[i].style.transform = 'translateY(0)';
+                    }, i * 300);
+                }
+        
+                // Animate blockchain visualization
+                const blocks = document.querySelectorAll('.block');
+        
+                blocks.forEach((block, index) => {
+                    setTimeout(() => {
+                        block.style.opacity = '1';
+                        block.style.transform = 'translateY(0)';
+                    }, index * 500);
+                });
+        
+                // Animate IP cards
+                const ipCards = document.querySelectorAll('.ip-card');
+        
+                ipCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 200);
+                });
+        
+                // Animate blockchain explorer
+                const explorerBlocks = document.querySelectorAll('.explorer-block');
+        
+                explorerBlocks.forEach((block, index) => {
+                    setTimeout(() => {
+                        block.style.opacity = '1';
+                        block.style.transform = 'translateY(0)';
+                    }, index * 200);
+                });
+        
+                // Testimonial carousel
+                const testimonialCarousel = document.querySelector('.testimonial-carousel');
+                const testimonials = document.querySelectorAll('.testimonial');
+                let currentIndex = 0;
+        
+                function showNextTestimonial() {
+                    testimonials.forEach(testimonial => {
+                        testimonial.classList.remove('active');
+                    });
+        
+                    testimonials[currentIndex].classList.add('active');
+                    currentIndex = (currentIndex + 1) % testimonials.length;
+                }
+        
+                setInterval(showNextTestimonial, 5000);
+        
+                // Smooth scrolling
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        document.querySelector(this.getAttribute('href')).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    });
+                });
+        
+                // Parallax effect
+                const heroBackground = document.querySelector('.hero-background video');
+                const heroOverlay = document.querySelector('.hero-overlay');
+        
+                window.addEventListener('scroll', () => {
+                    const scrollPosition = window.pageYOffset;
+                    heroBackground.style.transform = `translate(-50%, -${scrollPosition * 0.3}px)`;
+                    heroOverlay.style.opacity = 1 - scrollPosition / 500;
+                });
+            </script>
+        </body>
+        </html>
