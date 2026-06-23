@@ -1,985 +1,3268 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NextGen IP Shield | Secure, Transparent, and Decentralized</title>
-    <style>
-        :root {
-            --primary-color: #3a0ca3;
-            --secondary-color: #4cc9f0;
-            --text-color: #f7fff7;
-            --background-color: #001233;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            background-color: rgba(0, 18, 51, 0.8);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--secondary-color);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 16px;
-            position: relative;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:after {
-            content: "";
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background-color: var(--secondary-color);
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--secondary-color);
-        }
-
-        .nav-links a:hover:after {
-            width: 100%;
-        }
-
-        #hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        .hero-background video {
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 18, 51, 0.6);
-            backdrop-filter: blur(10px);
-        }
-
-        .hero-content {
-            text-align: center;
-            z-index: 1;
-        }
-
-        .hero-content h1 {
-            font-size: 4.5rem;
-            margin-bottom: 20px;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: fadeInUp 1s ease forwards;
-        }
-
-        .hero-content p {
-            font-size: 1.8rem;
-            margin-bottom: 40px;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: fadeInUp 1s ease 0.3s forwards;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 16px 32px;
-            background-color: var(--secondary-color);
-            color: var(--background-color);
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 50px;
-            font-size: 18px;
-            box-shadow: 0 10px 20px rgba(76, 201, 240, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: fadeInUp 1s ease 0.6s forwards;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(76, 201, 240, 0.5);
-        }
-
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        #features {
-            padding: 120px 0;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        .feature-card {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .feature-card:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #3a0ca3, #4cc9f0);
-            border-radius: 20px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .feature-card:hover:before {
-            opacity: 1;
-        }
-
-        .feature-card:after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            z-index: -1;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .feature-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-            color: var(--secondary-color);
-        }
-
-        .feature-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-
-        .feature-card p {
-            font-size: 16px;
-            line-height: 1.6;
-        }
-
-        #how-it-works {
-            padding: 120px 0;
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .blockchain-visual {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 50px;
-        }
-
-        .block {
-            width: 200px;
-            background-color: var(--primary-color);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        .block:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .block:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        .block h3 {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-
-        .block p {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .block-link {
-            width: 50px;
-            height: 2px;
-            background-color: var(--secondary-color);
-            align-self: center;
-        }
-
-        #marketplace {
-            padding: 120px 0;
-        }
-
-        .marketplace-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-        }
-
-        .ip-card {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        .ip-card:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .ip-card:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        .ip-card:nth-child(4) {
-            animation-delay: 0.6s;
-        }
-
-        .ip-card:nth-child(5) {
-            animation-delay: 0.8s;
-        }
-
-        .ip-card:nth-child(6) {
-            animation-delay: 1s;
-        }
-
-        .ip-card:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #3a0ca3, #4cc9f0);
-            border-radius: 20px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .ip-card:hover:before {
-            opacity: 1;
-        }
-
-        .ip-card:after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            z-index: -1;
-        }
-
-        .ip-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .ip-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-        }
-
-        .ip-card p {
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        .purchase-button {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: var(--secondary-color);
-            color: var(--background-color);
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 50px;
-            font-size: 16px;
-            box-shadow: 0 10px 20px rgba(76, 201, 240, 0.3);
-            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .purchase-button:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.2);
-            transition: width 0.3s ease;
-        }
-
-        .purchase-button:hover:before {
-            width: 100%;
-        }
-
-        .purchase-button:hover {
-            background-color: #3a0ca3;
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(76, 201, 240, 0.5);
-        }
-
-        #testimonials {
-            padding: 120px 0;
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .testimonial-carousel {
-            position: relative;
-            height: 400px;
-            overflow: hidden;
-        }
-
-        .testimonial-carousel:before,
-        .testimonial-carousel:after {
-            content: "";
-            position: absolute;
-            top: 0;
-            width: 100px;
-            height: 100%;
-            background: linear-gradient(to right, var(--background-color), transparent);
-            z-index: 1;
-        }
-
-        .testimonial-carousel:before {
-            left: 0;
-        }
-
-        .testimonial-carousel:after {
-            right: 0;
-            transform: rotate(180deg);
-        }
-
-        .testimonial {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .testimonial.active {
-            opacity: 1;
-        }
-
-        .testimonial p {
-            font-size: 1.8rem;
-            font-style: italic;
-            margin-bottom: 30px;
-        }
-
-        .testimonial h4 {
-            font-size: 1.4rem;
-            font-weight: bold;
-        }
-
-        #explorer {
-            padding: 120px 0;
-        }
-
-        #explorer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-top: 50px;
-        }
-
-        #latest-blocks {
-            flex: 1;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            overflow-y: auto;
-            max-height: 500px;
-        }
-
-        .explorer-block {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            opacity: 0;
-            transform: translateY(50px);
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        .explorer-block:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .explorer-block:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        .explorer-block:nth-child(4) {
-            animation-delay: 0.6s;
-        }
-
-        .explorer-block:nth-child(5) {
-            animation-delay: 0.8s;
-        }
-
-        .explorer-block:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #3a0ca3, #4cc9f0);
-            border-radius: 20px;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .explorer-block:hover:before {
-            opacity: 1;
-        }
-        
-        .explorer-block:after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            z-index: -1;
-        }
-        
-        .explorer-block h4,
-        .explorer-block p {
-            position: relative;
-            z-index: 1;
-        }
-        
-        #transaction-details {
-            flex: 1;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            margin-left: 40px;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-        
-        #transaction-details h3 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        
-        #transaction-details p {
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-        
-        footer {
-            background-color: rgba(0, 0, 0, 0.3);
-            padding: 60px 0;
-            text-align: center;
-        }
-        
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        .footer-links {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .footer-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-size: 16px;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-links a:hover {
-            color: var(--secondary-color);
-        }
-        
-        .social-icons {
-            display: flex;
-            gap: 20px;
-        }
-        
-        .social-icons a {
-            color: var(--text-color);
-            font-size: 28px;
-            transition: color 0.3s ease;
-        }
-        
-        .social-icons a:hover {
-            color: var(--secondary-color);
-        }
-        
-        /* Animations */
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @media (max-width: 1024px) {
-            .hero-content h1 {
-                font-size: 3.5rem;
-            }
-        
-            .hero-content p {
-                font-size: 1.5rem;
-            }
-        
-            .features-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            }
-        
-            .marketplace-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
-        
-            #explorer-content {
-                flex-direction: column;
-            }
-        
-            #transaction-details {
-                margin-left: 0;
-                margin-top: 40px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .nav-links {
-                gap: 20px;
-            }
-        
-            .hero-content h1 {
-                font-size: 3rem;
-            }
-        
-            .hero-content p {
-                font-size: 1.2rem;
-            }
-        
-            .cta-button {
-                padding: 12px 24px;
-                font-size: 16px;
-            }
-        
-            .feature-card {
-                padding: 30px;
-            }
-        
-            .ip-card {
-                padding: 30px;
-            }
-        
-            .testimonial p {
-                font-size: 1.5rem;
-            }
-        
-            .testimonial h4 {
-                font-size: 1.2rem;
-            }
-        }
-        </style>
-        </head>
-        <body>
-            <header>
-                <nav class="container">
-                    <div class="logo">NextGen IP Shield</div>
-                    <div class="nav-links">
-                        <a href="#hero">Home</a>
-                        <a href="#features">Features</a>
-                        <a href="#how-it-works">How It Works</a>
-                        <a href="#marketplace">Marketplace</a>
-                        <a href="#testimonials">Testimonials</a>
-                        <a href="#explorer">Explorer</a>
-                    </div>
-                </nav>
-            </header>
-        
-            <main>
-                <section id="hero">
-                    <div class="hero-background">
-                        <video autoplay loop muted>
-                            <source src="hero-background.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="hero-overlay"></div>
-                    <div class="container">
-                        <div class="hero-content">
-                            <h1>Welcome to the Future of IP Protection</h1>
-                            <p>Secure, Transparent, and Decentralized.</p>
-                            <a href="#features" class="cta-button">Learn More</a>
-                        </div>
-                    </div>
-                </section>
-        
-                <section id="features" class="container">
-                    <h2>Key Features</h2>
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon">🔐</div>
-                            <h3>Secure Registration</h3>
-                            <p>Register your IP on the blockchain with unparalleled security</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">✅</div>
-                            <h3>Instant Verification</h3>
-                            <p>Verify ownership and authenticity in real-time</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">⚖️</div>
-                            <h3>Smart Dispute Resolution</h3>
-                            <p>Resolve conflicts efficiently with our decentralized system</p>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">💹</div>
-                            <h3>Global Marketplace</h3>
-                            <p>Buy, sell, and license IP securely on our platform</p>
-                        </div>
-                    </div>
-                </section>
-        
-                <section id="how-it-works" class="container">
-                    <h2>How It Works</h2>
-                    <div class="blockchain-visual">
-                        <div class="block">
-                            <h3>Block 1</h3>
-                            <p>Hash: 0x123</p>
-                        </div>
-                        <div class="block-link"></div>
-                        <div class="block">
-                            <h3>Block 2</h3>
-                            <p>Hash: 0x456</p>
-                        </div>
-                        <div class="block-link"></div>
-                        <div class="block">
-                            <h3>Block 3</h3>
-                            <p>Hash: 0x789</p>
-                        </div>
-                    </div>
-                </section>
-        
-                <section id="marketplace" class="container">
-                    <h2>IP Marketplace</h2>
-                    <div class="marketplace-grid">
-                        <div class="ip-card">
-                            <h3>Revolutionary AI Algorithm</h3>
-                            <p>Price: 5 ETH</p>
-                            <a href="#" class="purchase-button">Purchase</a>
-                        </div>
-                        <div class="ip-card">
-                            <h3>Innovative Green Energy Patent</h3>
-                            <p>Price: 10 ETH</p>
-                            <a href="#" class="purchase-button">Purchase</a>
-                        </div>
-                        <div class="ip-card">
-                            <h3>Cutting-edge Biotech Process</h3>
-                            <p>Price: 7.5 ETH</p>
-                            <a href="#" class="purchase-button">Purchase</a>
-                        </div>
-                        <div class="ip-card">
-                            <h3>Next-Gen Quantum Computing Method</h3>
-                            <p>Price: 15 ETH</p>
-                            <a href="#" class="purchase-button">Purchase</a>
-                        </div>
-                        <div class="ip-card">
-                            <h3>Advanced Machine Learning Model</h3>
-                            <p>Price: 8 ETH</p>
-                            <a href="#" class="purchase-button">Purchase</a>
-                        </div>
-                        <div class="ip-card">
-                            <h3>Innovative Blockchain Protocol</h3>
-                            <p>Price: 12 ETH</p>
-                            <a href="#" class="purchase-button">Purchase</a>
-                        </div>
-                    </div>
-                </section>
-        
-                <section id="testimonials" class="container">
-                    <h2>What Our Users Say</h2>
-                    <div class="testimonial-carousel">
-                        <div class="testimonial active">
-                            <p>"NextGen IP Shield has revolutionized how I protect my intellectual property. It's secure, transparent, and incredibly easy to use."</p>
-                            <h4>John Doe</h4>
-                        </div>
-                        <div class="testimonial">
-                            <p>"As an innovator, I've always worried about IP protection. This platform gives me peace of mind and opens up new opportunities for collaboration."</p>
-                            <h4>Jane Smith</h4>
-                        </div>
-                        <div class="testimonial">
-                            <p>"The blockchain integration is brilliant. It provides an immutable record of my research, which is crucial in the fast-paced world of academia."</p>
-                            <h4>Dr. Robert Johnson</h4>
-                        </div>
-                    </div>
-                </section>
-        
-                <section id="explorer" class="container">
-                    <h2>Blockchain Explorer</h2>
-                    <div id="explorer-content">
-                        <div id="latest-blocks">
-                            <div class="explorer-block">
-                                <h4>Block #123456</h4>
-                                <p>Transactions: 78</p>
-                                <p>Timestamp: July 15, 2024</p>
-                            </div>
-                            <div class="explorer-block">
-                                <h4>Block #123455</h4>
-                                <p>Transactions: 92</p>
-                                <p>Timestamp: July 14, 2024</p>
-                            </div>
-                            <div class="explorer-block">
-                                <h4>Block #123454</h4>
-                                <p>Transactions: 64</p>
-                                <p>Timestamp: July 13, 2024</p>
-                            </div>
-                            <div class="explorer-block">
-                                <h4>Block #123453</h4>
-                                <p>Transactions: 81</p>
-                                <p>Timestamp: July 12, 2024</p>
-                            </div>
-                            <div class="explorer-block">
-                                <h4>Block #123452</h4>
-                                <p>Transactions: 70</p>
-                                <p>Timestamp: July 11, 2024</p>
-                            </div>
-                        </div>
-                        <div id="transaction-details">
-                            <h3>Transaction Details</h3>
-                            <p>Hash: 0x123456789abcdef0123456789abcdef</p>
-                            <p>From: 0x1234567890abcdef1234567890abcdef</p>
-                            <p>To: 0x0987654321fedcba0987654321fedcba</p>
-                            <p>Block: 123456</p>
-                            <p>Timestamp: July 15, 2024, 10:30 AM</p>
-                            <p>Value: 5 ETH</p>
-                        </div>
-                    </div>
-                </section>
-            </main>
-        
-            <footer>
-                <div class="container footer-content">
-                    <div class="footer-links">
-                        <a href="#">Privacy Policy</a>
-                        <a href="#">Terms of Service</a>
-                        <a href="#">Contact Us</a>
-                    </div>
-                    <div class="social-icons">
-                        <a href="#" aria-label="Facebook">📘</a>
-                        <a href="#" aria-label="Twitter">🐦</a>
-                        <a href="#" aria-label="LinkedIn">💼</a>
-                    </div>
-                </div>
-            </footer>
-        
-            <script>
-                // Animate hero content
-                const heroContent = document.querySelector('.hero-content');
-                const heroElements = heroContent.children;
-        
-                for (let i = 0; i < heroElements.length; i++) {
-                    setTimeout(() => {
-                        heroElements[i].style.opacity = '1';
-                        heroElements[i].style.transform = 'translateY(0)';
-                    }, i * 300);
-                }
-        
-                // Animate blockchain visualization
-                const blocks = document.querySelectorAll('.block');
-        
-                blocks.forEach((block, index) => {
-                    setTimeout(() => {
-                        block.style.opacity = '1';
-                        block.style.transform = 'translateY(0)';
-                    }, index * 500);
-                });
-        
-                // Animate IP cards
-                const ipCards = document.querySelectorAll('.ip-card');
-        
-                ipCards.forEach((card, index) => {
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, index * 200);
-                });
-        
-                // Animate blockchain explorer
-                const explorerBlocks = document.querySelectorAll('.explorer-block');
-        
-                explorerBlocks.forEach((block, index) => {
-                    setTimeout(() => {
-                        block.style.opacity = '1';
-                        block.style.transform = 'translateY(0)';
-                    }, index * 200);
-                });
-        
-                // Testimonial carousel
-                const testimonialCarousel = document.querySelector('.testimonial-carousel');
-                const testimonials = document.querySelectorAll('.testimonial');
-                let currentIndex = 0;
-        
-                function showNextTestimonial() {
-                    testimonials.forEach(testimonial => {
-                        testimonial.classList.remove('active');
-                    });
-        
-                    testimonials[currentIndex].classList.add('active');
-                    currentIndex = (currentIndex + 1) % testimonials.length;
-                }
-        
-                setInterval(showNextTestimonial, 5000);
-        
-                // Smooth scrolling
-                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                    anchor.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        document.querySelector(this.getAttribute('href')).scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    });
-                });
-        
-                // Parallax effect
-                const heroBackground = document.querySelector('.hero-background video');
-                const heroOverlay = document.querySelector('.hero-overlay');
-        
-                window.addEventListener('scroll', () => {
-                    const scrollPosition = window.pageYOffset;
-                    heroBackground.style.transform = `translate(-50%, -${scrollPosition * 0.3}px)`;
-                    heroOverlay.style.opacity = 1 - scrollPosition / 500;
-                });
-            </script>
-        </body>
-        </html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="description" content="NextGen IP Shield — Decentralized intellectual property registry. Cryptographic proof of ownership in minutes.">
+<title>NextGen IP Shield — Decentralized IP Registry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<style>
+/* ============================================
+   BOOTSTRAP THEME OVERRIDE — Ink, Paper, Pigment
+   ============================================ */
+:root {
+  --ink: #1c1917;
+  --ink-soft: #44403c;
+  --ink-muted: #78716c;
+  --ink-faint: #a8a29e;
+  --paper: #fafaf9;
+  --paper-warm: #f5f5f4;
+  --paper-deep: #e7e5e4;
+  --surface: #ffffff;
+  --pigment: #c2410c;
+  --pigment-light: #ea580c;
+  --pigment-wash: rgba(194, 65, 12, 0.06);
+  --pigment-glow: rgba(194, 65, 12, 0.25);
+  --border: rgba(28, 25, 23, 0.08);
+  --border-strong: rgba(28, 25, 23, 0.16);
+  --success: #15803d;
+  --warning: #b45309;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --font-serif: "Playfair Display", "Georgia", "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+  
+  /* Bootstrap overrides */
+  --bs-body-font-family: var(--font-sans);
+  --bs-body-color: var(--ink);
+  --bs-body-bg: var(--paper);
+  --bs-primary: var(--pigment);
+  --bs-primary-rgb: 194, 65, 12;
+  --bs-secondary: var(--ink-soft);
+  --bs-border-color: var(--border);
+  --bs-border-radius: var(--radius-sm);
+  --bs-border-radius-lg: var(--radius-md);
+  --bs-box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+  --bs-box-shadow-sm: 0 2px 8px rgba(0,0,0,0.03);
+  --bs-box-shadow-lg: 0 12px 48px rgba(0,0,0,0.08);
+}
+
+[data-bs-theme="dark"] {
+  --ink: #f5f5f4;
+  --ink-soft: #d6d3d1;
+  --ink-muted: #a8a29e;
+  --ink-faint: #57534e;
+  --paper: #0c0a09;
+  --paper-warm: #1c1917;
+  --paper-deep: #292524;
+  --surface: #1c1917;
+  --pigment: #f97316;
+  --pigment-light: #fb923c;
+  --pigment-wash: rgba(249, 115, 22, 0.08);
+  --pigment-glow: rgba(249, 115, 22, 0.3);
+  --border: rgba(245, 245, 244, 0.08);
+  --border-strong: rgba(245, 245, 244, 0.16);
+  --bs-body-color: var(--ink);
+  --bs-body-bg: var(--paper);
+  --bs-primary: var(--pigment);
+  --bs-primary-rgb: 249, 115, 22;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .hero-canvas { display: none !important; }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection { background: var(--pigment); color: #fff; }
+
+/* Grain overlay */
+.grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 9998; opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute; top: -40px; left: 0;
+  background: var(--pigment); color: #fff;
+  padding: 8px 16px; z-index: 99999;
+  font-size: 13px; text-decoration: none; font-weight: 500;
+  transition: top 0.3s var(--ease-out);
+}
+.skip-link:focus { top: 0; }
+
+/* Scroll progress */
+#scrollProgress {
+  position: fixed; top: 0; left: 0; height: 2px;
+  background: var(--pigment); z-index: 9999; width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* Toast */
+.toast-container {
+  position: fixed; top: 24px; right: 24px; z-index: 10001;
+  display: flex; flex-direction: column; gap: 10px; max-width: 340px;
+}
+.toast-ng {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 16px 20px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+  display: flex; align-items: flex-start; gap: 12px; font-size: 13px;
+  transform: translateX(120%); opacity: 0;
+  transition: all 0.5s var(--ease-out);
+}
+.toast-ng.show { transform: translateX(0); opacity: 1; }
+.toast-icon {
+  width: 28px; height: 28px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0; font-weight: 700;
+}
+.toast-success .toast-icon { background: rgba(21, 128, 61, 0.1); color: var(--success); }
+.toast-error .toast-icon { background: rgba(194, 65, 12, 0.1); color: var(--pigment); }
+.toast-info .toast-icon { background: rgba(180, 83, 9, 0.1); color: var(--warning); }
+.toast-title { font-weight: 600; margin-bottom: 2px; color: var(--ink); font-size: 13px; }
+.toast-body { color: var(--ink-muted); font-size: 12px; line-height: 1.5; }
+
+/* ============================================
+   NAVBAR — Bootstrap Custom
+   ============================================ */
+.navbar-ng {
+  padding: 0.75rem 0;
+  transition: all 0.4s var(--ease-out);
+  border-bottom: 1px solid transparent;
+  background: transparent;
+}
+.navbar-ng.scrolled {
+  background: rgba(250, 250, 249, 0.95);
+  backdrop-filter: blur(12px) saturate(1.5);
+  border-bottom-color: var(--border);
+  padding: 0.5rem 0;
+}
+[data-bs-theme="dark"] .navbar-ng.scrolled {
+  background: rgba(12, 10, 9, 0.95);
+}
+.navbar-brand-ng {
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--ink) !important;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand-mark {
+  width: 8px; height: 8px; background: var(--pigment);
+  transform: rotate(45deg); display: inline-block;
+}
+.nav-link-ng {
+  font-size: 0.8125rem;
+  color: var(--ink-soft) !important;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  position: relative;
+  padding: 0.5rem 0 !important;
+  margin: 0 1rem;
+  transition: color 0.3s;
+}
+.nav-link-ng::after {
+  content: ""; position: absolute; bottom: 0; left: 0;
+  width: 0; height: 1.5px; background: var(--pigment);
+  transition: width 0.4s var(--ease-out);
+}
+.nav-link-ng:hover { color: var(--ink) !important; }
+.nav-link-ng:hover::after { width: 100%; }
+.nav-cta-btn {
+  padding: 0.625rem 1.25rem;
+  background: var(--ink);
+  color: var(--paper) !important;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-cta-btn:hover { background: var(--pigment); transform: translateY(-1px); }
+.offcanvas-ng {
+  background: var(--paper);
+  border-left: 1px solid var(--border);
+}
+.offcanvas-header-ng {
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem;
+}
+.offcanvas-body-ng {
+  padding: 2rem 1.5rem;
+}
+.mobile-nav-link {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 400;
+  line-height: 1.4;
+  transition: color 0.3s;
+  padding: 0.75rem 0;
+  display: block;
+  border-bottom: 1px solid var(--border);
+}
+.mobile-nav-link:hover { color: var(--pigment); }
+.navbar-toggler-ng {
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+}
+.navbar-toggler-ng:focus { box-shadow: 0 0 0 3px var(--pigment-wash); }
+
+/* Cart badge */
+.cart-btn {
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: color 0.3s;
+}
+.cart-btn:hover { color: var(--pigment); }
+.cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--pigment);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+}
+
+/* ============================================
+   HERO — Completely New (Editorial + Pulse)
+   ============================================ */
+.hero-new {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--paper);
+  padding-top: 80px;
+  padding-bottom: 2rem;
+}
+
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-grid-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.3;
+  mask-image: radial-gradient(ellipse at 30% 50%, black 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at 30% 50%, black 20%, transparent 70%);
+}
+
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,0.03) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 5;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pigment);
+  position: relative;
+}
+.badge-dot::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid var(--pigment);
+  animation: ringPulse 2.5s infinite;
+}
+
+.hero-badge span:last-child {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--pigment);
+}
+
+.hero-headline-new {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin-bottom: 2rem;
+  color: var(--ink);
+}
+
+.hero-headline-new .line {
+  display: block;
+  overflow: hidden;
+}
+
+.hero-headline-new .line-inner {
+  display: block;
+  transform: translateY(100%);
+  animation: lineReveal 1.2s var(--ease-out) forwards;
+}
+
+.hero-headline-new .line:nth-child(1) .line-inner { animation-delay: 0.3s; }
+.hero-headline-new .line:nth-child(2) .line-inner { animation-delay: 0.6s; }
+.hero-headline-new .line:nth-child(3) .line-inner { animation-delay: 0.9s; }
+
+.hero-headline-new em {
+  font-style: italic;
+  color: var(--pigment);
+  position: relative;
+}
+
+.hero-headline-new em::after {
+  content: "";
+  position: absolute;
+  bottom: 0.04em;
+  left: 0;
+  width: 100%;
+  height: 0.06em;
+  background: var(--pigment);
+  opacity: 0.25;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: underlineExpand 0.8s 1.5s var(--ease-out) forwards;
+}
+
+.hero-subhead-new {
+  font-size: 1.125rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  max-width: 480px;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  filter: blur(4px);
+  animation: blurIn 1s 1.2s forwards;
+}
+
+.hero-actions-new {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.8s 1.4s forwards;
+}
+
+.btn-ng-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  background: var(--ink);
+  color: var(--paper);
+  transition: all 0.3s var(--ease-out);
+  overflow: hidden;
+}
+.btn-ng-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--pigment);
+  transform: translateX(-100%);
+  transition: transform 0.4s var(--ease-out);
+  z-index: 0;
+}
+.btn-ng-primary:hover::before {
+  transform: translateX(0);
+}
+.btn-ng-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(194, 65, 12, 0.25);
+}
+.btn-ng-primary span, .btn-ng-primary i {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-ng-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 1rem 2rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--border-strong);
+  font-family: inherit;
+  background: transparent;
+  color: var(--ink);
+  transition: all 0.3s;
+}
+.btn-ng-secondary:hover {
+  border-color: var(--pigment);
+  color: var(--pigment);
+  background: var(--pigment-wash);
+}
+
+/* Right side — Pulse Network */
+.hero-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.pulse-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+}
+
+.pulse-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  animation: pulseRing 4s ease-out infinite;
+}
+.pulse-ring:nth-child(2) { animation-delay: 1s; }
+.pulse-ring:nth-child(3) { animation-delay: 2s; }
+.pulse-ring:nth-child(4) { animation-delay: 3s; }
+
+.pulse-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  z-index: 10;
+}
+
+.pulse-core::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--pigment);
+  animation: corePulse 2s ease-in-out infinite;
+}
+
+.pulse-labels {
+  position: absolute;
+  inset: 0;
+}
+
+.pulse-label {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+  background: var(--surface);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+  opacity: 0;
+  animation: labelFade 0.5s forwards;
+}
+
+.pulse-label:nth-child(1) { top: 20%; left: 0; animation-delay: 1.5s; }
+.pulse-label:nth-child(2) { top: 10%; right: 10%; animation-delay: 2s; }
+.pulse-label:nth-child(3) { bottom: 20%; right: 0; animation-delay: 2.5s; }
+.pulse-label:nth-child(4) { bottom: 10%; left: 10%; animation-delay: 3s; }
+
+/* Floating stats card */
+.hero-float-card {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+  z-index: 20;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: floatIn 0.8s 2s var(--ease-out) forwards;
+}
+
+.hero-float-card .val {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--pigment);
+  line-height: 1;
+}
+
+.hero-float-card .label {
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+  margin-top: 6px;
+}
+
+/* Bottom ticker */
+.hero-ticker {
+  position: relative;
+  z-index: 5;
+  margin-top: auto;
+  padding-top: 3rem;
+  overflow: hidden;
+}
+
+.ticker-track {
+  display: flex;
+  gap: 3rem;
+  width: max-content;
+  animation: tickerScroll 40s linear infinite;
+}
+
+.ticker-item {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--ink-muted);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  opacity: 0.6;
+}
+.ticker-item::after {
+  content: "◈";
+  opacity: 0.4;
+  color: var(--pigment);
+}
+
+/* Hero stats row */
+.hero-stats-row {
+  position: relative;
+  z-index: 5;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-item .num {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--pigment);
+  line-height: 1;
+}
+
+.stat-item .label {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  margin-top: 0.5rem;
+}
+
+/* ============================================
+   SECTIONS — Bootstrap Enhanced
+   ============================================ */
+.section-ng {
+  padding: 5rem 0;
+}
+@media (min-width: 768px) {
+  .section-ng { padding: 7rem 0; }
+}
+@media (min-width: 992px) {
+  .section-ng { padding: 9rem 0; }
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--pigment);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.section-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+}
+
+.section-headline em {
+  font-style: italic;
+  color: var(--pigment);
+}
+
+/* Editorial */
+.editorial-ng {
+  background: var(--paper-warm);
+}
+
+.stat-grid-ng {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.stat-cell-ng {
+  background: var(--paper);
+  padding: 1.75rem;
+  transition: all 0.4s var(--ease-out);
+  cursor: pointer;
+}
+.stat-cell-ng:hover { background: var(--pigment-wash); }
+
+.stat-cell-ng .num {
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--pigment);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.stat-cell-ng .label {
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+}
+
+/* Process */
+.process-step-ng {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 1.5rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s var(--ease-out);
+}
+.process-step-ng.visible { opacity: 1; transform: translateY(0); }
+.process-step-ng:first-child { border-top: 1px solid var(--border); }
+
+.process-num-ng {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--pigment);
+  font-weight: 500;
+  padding-top: 0.25rem;
+}
+
+.process-title-ng {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--ink);
+}
+
+.process-desc-ng {
+  font-size: 0.9375rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  max-width: 560px;
+}
+
+/* Bento */
+.bento-grid-ng {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+@media (min-width: 768px) {
+  .bento-grid-ng {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .bento-grid-ng {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .bento-wide { grid-column: span 2; }
+  .bento-full { grid-column: span 3; }
+}
+
+.bento-card-ng {
+  background: var(--surface);
+  padding: 2rem;
+  transition: all 0.5s var(--ease-out);
+  opacity: 0;
+  transform: translateY(20px);
+}
+.bento-card-ng.visible { opacity: 1; transform: translateY(0); }
+.bento-card-ng:hover { background: var(--paper-warm); }
+
+.bento-icon-ng {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--pigment-wash);
+  color: var(--pigment);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  margin-bottom: 1.25rem;
+}
+
+.bento-card-ng h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.bento-card-ng p {
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+.bento-meta-ng {
+  margin-top: 1.25rem;
+  padding: 0.625rem 0.875rem;
+  background: var(--paper);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--ink-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.3s;
+}
+
+.bento-meta-ng:hover {
+  border-color: var(--pigment);
+  color: var(--pigment);
+  background: var(--pigment-wash);
+}
+
+.bento-meta-ng .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pigment);
+  animation: pulse 2s infinite;
+}
+
+/* Lab */
+.lab-workspace-ng {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+@media (min-width: 992px) {
+  .lab-workspace-ng {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.lab-dropzone-ng {
+  background: var(--surface);
+  padding: 3rem 2rem;
+  text-align: center;
+  transition: all 0.4s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+.lab-dropzone-ng.dragover { background: var(--pigment-wash); }
+
+.lab-console-ng {
+  background: #0c0a09;
+  color: #e7e5e4;
+  padding: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.8;
+  min-height: 300px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* AI Chat */
+.ai-chat-ng {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+}
+
+.ai-messages-ng {
+  padding: 1.5rem;
+  min-height: 260px;
+  max-height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ai-msg-ng {
+  display: flex;
+  gap: 0.875rem;
+  animation: fadeUp 0.3s var(--ease-out);
+}
+
+.ai-avatar-ng {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.ai-msg-ng.bot .ai-avatar-ng { background: var(--pigment-wash); color: var(--pigment); }
+.ai-msg-ng.user .ai-avatar-ng { background: var(--ink); color: var(--paper); }
+
+.ai-content-ng {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.875rem 1.125rem;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  max-width: 85%;
+}
+.ai-msg-ng.user .ai-content-ng {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+/* Ledger */
+.ledger-table-wrap-ng {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: box-shadow 0.4s;
+}
+.ledger-table-wrap-ng:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.04); }
+
+.ledger-table-ng {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin-bottom: 0;
+}
+
+.ledger-table-ng th {
+  text-align: left;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.ledger-table-ng th:hover { color: var(--pigment); }
+.ledger-table-ng th.sortable::after { content: " ↕"; opacity: 0.3; font-size: 10px; }
+.ledger-table-ng th.sort-asc::after { content: " ↑"; opacity: 1; color: var(--pigment); }
+.ledger-table-ng th.sort-desc::after { content: " ↓"; opacity: 1; color: var(--pigment); }
+
+.ledger-table-ng td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  transition: all 0.3s;
+  vertical-align: middle;
+}
+
+.ledger-table-ng tbody tr {
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.ledger-table-ng tbody tr:hover td {
+  background: var(--pigment-wash);
+  color: var(--ink);
+}
+
+.ledger-table-ng strong {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.tag-ng {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  border-radius: 100px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  background: var(--paper);
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+.tag-ng:hover { background: var(--pigment); color: #fff; border-color: var(--pigment); }
+
+/* Market */
+.market-grid-ng {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+@media (min-width: 768px) {
+  .market-grid-ng { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 992px) {
+  .market-grid-ng { grid-template-columns: repeat(3, 1fr); }
+}
+
+.market-card-ng {
+  background: var(--surface);
+  padding: 2rem;
+  transition: all 0.5s var(--ease-out);
+  opacity: 0;
+  transform: translateY(20px);
+}
+.market-card-ng.visible { opacity: 1; transform: translateY(0); }
+.market-card-ng:hover {
+  background: var(--paper-warm);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+  z-index: 2;
+  position: relative;
+}
+
+/* Pricing */
+.pricing-grid-ng {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+@media (min-width: 992px) {
+  .pricing-grid-ng { grid-template-columns: repeat(3, 1fr); }
+}
+
+.price-card-ng {
+  background: var(--surface);
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.6s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+.price-card-ng:hover { background: var(--paper-warm); }
+
+.price-card-ng.popular {
+  background: var(--ink);
+  color: var(--paper);
+  transform: scale(1);
+  z-index: 2;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+}
+
+@media (min-width: 992px) {
+  .price-card-ng.popular { transform: scale(1.02); }
+}
+
+.price-ribbon-ng {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--pigment);
+  font-weight: 600;
+}
+
+.price-card-ng.popular .price-ribbon-ng { color: var(--pigment-light); }
+
+.price-card-ng h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; }
+.price-card-ng.popular h3 { color: var(--paper); }
+
+.price-tagline-ng {
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+  margin-bottom: 1.75rem;
+}
+.price-card-ng.popular .price-tagline-ng { color: rgba(255,255,255,0.5); }
+
+.price-amount-ng {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 2rem;
+  line-height: 1;
+}
+.price-card-ng.popular .price-amount-ng { color: var(--paper); }
+
+.price-amount-ng span {
+  font-size: 1rem;
+  color: var(--ink-muted);
+  font-weight: 400;
+}
+.price-card-ng.popular .price-amount-ng span { color: rgba(255,255,255,0.5); }
+
+.price-features-ng {
+  list-style: none;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  padding-left: 0;
+}
+
+.price-features-ng li {
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+  display: flex;
+  gap: 0.625rem;
+  align-items: center;
+}
+.price-card-ng.popular .price-features-ng li { color: rgba(255,255,255,0.7); }
+
+.price-features-ng li::before {
+  content: "→";
+  color: var(--pigment);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.price-features-ng li.disabled {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+.price-card-ng.popular .price-features-ng li.disabled { color: rgba(255,255,255,0.3); }
+
+.price-features-ng li.disabled::before {
+  content: "×";
+  color: var(--ink-muted);
+}
+.price-card-ng.popular .price-features-ng li.disabled::before { color: rgba(255,255,255,0.4); }
+
+.btn-price-ng {
+  width: 100%;
+  padding: 0.875rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border-strong);
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s var(--ease-out);
+  font-family: inherit;
+}
+.btn-price-ng:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+  transform: translateY(-2px);
+}
+
+.price-card-ng.popular .btn-price-ng {
+  background: var(--pigment);
+  border-color: var(--pigment);
+  color: #fff;
+}
+.price-card-ng.popular .btn-price-ng:hover {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--paper);
+}
+
+/* Testimonials */
+.testimonial-card-ng {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 3rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+  transition: all 0.5s var(--ease-out);
+  text-align: center;
+}
+.testimonial-card-ng:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
+
+.testimonial-stars-ng {
+  color: var(--warning);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 4px;
+}
+
+.testimonial-quote-ng {
+  font-family: var(--font-serif);
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  line-height: 1.5;
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+/* FAQ */
+.faq-item-ng {
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.faq-item-ng.hidden { display: none; }
+
+.faq-trigger-ng {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.75rem 0;
+  background: none;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.3s;
+  color: var(--ink);
+  gap: 1rem;
+}
+
+.faq-trigger-ng:hover { color: var(--pigment); }
+.faq-trigger-ng[aria-expanded="true"] { color: var(--pigment); }
+
+.faq-icon-ng {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  flex-shrink: 0;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.faq-icon-ng::before, .faq-icon-ng::after {
+  content: "";
+  position: absolute;
+  background: var(--pigment);
+  transition: all 0.4s var(--ease-out);
+}
+
+.faq-icon-ng::before {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  transform: translateY(-50%);
+}
+
+.faq-icon-ng::after {
+  top: 0;
+  left: 50%;
+  height: 100%;
+  width: 2px;
+  transform: translateX(-50%);
+}
+
+.faq-item-ng.open .faq-icon-ng { transform: rotate(135deg); }
+
+.faq-answer-ng {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.7s var(--ease-out);
+}
+
+.faq-item-ng.open .faq-answer-ng { max-height: 300px; }
+
+.faq-answer-ng p {
+  padding-bottom: 1.75rem;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  font-size: 0.9375rem;
+}
+
+/* CTA */
+.cta-ng {
+  padding: 7rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+@media (min-width: 768px) {
+  .cta-ng { padding: 10rem 0; }
+}
+
+.cta-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.12;
+}
+
+.cta-blob:nth-child(1) {
+  width: 600px;
+  height: 600px;
+  background: var(--pigment);
+  top: -50%;
+  left: -10%;
+}
+
+.cta-blob:nth-child(2) {
+  width: 500px;
+  height: 500px;
+  background: var(--pigment-light);
+  bottom: -50%;
+  right: -10%;
+}
+
+/* Footer */
+.footer-ng {
+  padding: 4rem 0;
+  border-top: 1px solid var(--border);
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.footer-ng a {
+  color: var(--ink-muted);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-ng a:hover { color: var(--pigment); }
+
+/* Cart Drawer */
+.cart-drawer-ng {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  max-width: 90vw;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--paper);
+  border-left: 1px solid var(--border);
+  z-index: 10003;
+  transform: translateX(100%);
+  transition: transform 0.5s var(--ease-out);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -8px 0 40px rgba(0,0,0,0.08);
+}
+
+.cart-drawer-ng.active { transform: translateX(0); }
+
+.cart-overlay-ng {
+  position: fixed;
+  inset: 0;
+  z-index: 10002;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+
+.cart-overlay-ng.active { opacity: 1; pointer-events: auto; }
+
+/* Theme toggle */
+.theme-toggle-ng {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.4s var(--ease-out);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  font-size: 1.125rem;
+  color: var(--ink);
+}
+.theme-toggle-ng:hover { transform: scale(1.1) rotate(12deg); }
+
+/* Back to top */
+.back-to-top-ng {
+  position: fixed;
+  bottom: 84px;
+  right: 24px;
+  z-index: 999;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.4s var(--ease-out);
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  font-size: 1rem;
+  color: var(--ink);
+}
+.back-to-top-ng.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.back-to-top-ng:hover { background: var(--pigment); color: #fff; border-color: var(--pigment); }
+
+/* Reveal */
+.reveal-ng {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: all 0.8s var(--ease-out);
+}
+.reveal-ng.visible { opacity: 1; transform: translateY(0); }
+
+/* Modal */
+.modal-ng .modal-content {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.modal-ng .modal-header {
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem;
+}
+
+.modal-ng .modal-footer {
+  border-top: 1px solid var(--border);
+  padding: 1.25rem 1.5rem;
+}
+
+/* Comparison */
+.comparison-table-ng {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.comparison-table-ng th {
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  border-bottom: 2px solid var(--border);
+}
+
+.comparison-table-ng td {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9375rem;
+}
+
+.comparison-table-ng td:first-child { color: var(--ink-soft); }
+.comparison-table-ng td:nth-child(2) { color: var(--pigment); font-weight: 600; }
+.comparison-table-ng td:nth-child(3) { color: var(--ink-muted); }
+
+.comparison-table-ng tr:hover td { background: var(--pigment-wash); }
+
+/* Animations */
+@keyframes ringPulse {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes lineReveal {
+  to { transform: translateY(0); }
+}
+
+@keyframes blurIn {
+  to { opacity: 1; filter: blur(0); }
+}
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floatIn {
+  to { opacity: 1; transform: translateZ(120px) translateY(0); }
+}
+
+@keyframes underlineExpand {
+  to { transform: scaleX(1); }
+}
+
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes pulseRing {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+@keyframes corePulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+@keyframes labelFade {
+  to { opacity: 1; }
+}
+
+/* Mobile optimizations */
+@media (max-width: 767px) {
+  .hero-headline-new { font-size: clamp(2.5rem, 12vw, 3.5rem); }
+  .pulse-container { width: 220px; height: 220px; }
+  .hero-float-card { right: 0; bottom: -10px; }
+  .testimonial-card-ng { padding: 2rem 1.5rem; }
+  .process-step-ng { grid-template-columns: 1fr; gap: 0.75rem; }
+  .comparison-table-ng th, .comparison-table-ng td { padding: 1rem; font-size: 0.875rem; }
+  .ledger-table-ng th, .ledger-table-ng td { padding: 0.875rem; }
+  .section-ng { padding: 4rem 0; }
+  .hero-new { padding-top: 72px; }
+  .btn-ng-primary, .btn-ng-secondary { width: 100%; justify-content: center; }
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+  .bento-card-ng:hover, .market-card-ng:hover, .price-card-ng:hover {
+    transform: none;
+  }
+  .nav-link-ng::after { display: none; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+  .pulse-ring { animation: none; }
+  .pulse-core::before { animation: none; }
+}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<a href="#hero" class="skip-link">Skip to content</a>
+<div id="scrollProgress"></div>
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Cart Overlay & Drawer -->
+<div class="cart-overlay-ng" id="cartOverlay"></div>
+<div class="cart-drawer-ng" id="cartDrawer" role="dialog" aria-label="Shopping cart">
+  <div class="p-4 border-bottom d-flex justify-content-between align-items-center">
+    <h3 class="h5 mb-0">Your Cart</h3>
+    <button class="btn btn-sm btn-outline-secondary border-0" id="cartClose" aria-label="Close cart">
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+  <div class="flex-grow-1 overflow-auto p-4" id="cartBody">
+    <div class="text-center py-5 text-muted">
+      <div class="fs-1 mb-3 opacity-25">◈</div>
+      <div>Your cart is empty</div>
+      <div class="small mt-2 opacity-75">Browse the marketplace to add items</div>
+    </div>
+  </div>
+  <div class="p-4 border-top">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <span class="fw-semibold">Total</span>
+      <span class="fw-bold font-monospace text-primary" id="cartTotal">0 ETH</span>
+    </div>
+    <button class="btn btn-primary w-100" id="cartCheckout" style="background:var(--pigment);border-color:var(--pigment);">Proceed to Checkout</button>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-ng fixed-top" id="nav" role="navigation" aria-label="Main">
+  <div class="container">
+    <a class="navbar-brand-ng" href="#">
+      <span class="brand-mark"></span>
+      NextGen IP Shield
+    </a>
+    
+    <div class="d-flex align-items-center gap-2 d-lg-none">
+      <button class="cart-btn" id="navCartBtn" aria-label="Open cart">
+        <i class="bi bi-hexagon"></i>
+        <span class="cart-badge" id="navCartBadge">0</span>
+      </button>
+      <button class="navbar-toggler-ng" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-controls="mobileMenu" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-5"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse d-none d-lg-flex" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item"><a class="nav-link-ng" href="#features">Capabilities</a></li>
+        <li class="nav-item"><a class="nav-link-ng" href="#process">Process</a></li>
+        <li class="nav-item"><a class="nav-link-ng" href="#lab">Lab</a></li>
+        <li class="nav-item"><a class="nav-link-ng" href="#ledger">Ledger</a></li>
+        <li class="nav-item"><a class="nav-link-ng" href="#market">Market</a></li>
+        <li class="nav-item"><a class="nav-link-ng" href="#pricing">Pricing</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-3">
+        <button class="cart-btn d-none d-lg-flex" id="navCartBtnDesktop" aria-label="Open cart">
+          <i class="bi bi-hexagon"></i>
+          <span class="cart-badge" id="navCartBadgeDesktop">0</span>
+        </button>
+        <a href="#final" class="nav-cta-btn">Get Started</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Offcanvas -->
+<div class="offcanvas offcanvas-end offcanvas-ng" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
+  <div class="offcanvas-header offcanvas-header-ng">
+    <h5 class="offcanvas-title font-serif" id="mobileMenuLabel" style="font-weight:600;">Menu</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body offcanvas-body-ng">
+    <a href="#features" class="mobile-nav-link" data-bs-dismiss="offcanvas">Capabilities</a>
+    <a href="#process" class="mobile-nav-link" data-bs-dismiss="offcanvas">Process</a>
+    <a href="#lab" class="mobile-nav-link" data-bs-dismiss="offcanvas">Lab</a>
+    <a href="#ai" class="mobile-nav-link" data-bs-dismiss="offcanvas">AI Counsel</a>
+    <a href="#ledger" class="mobile-nav-link" data-bs-dismiss="offcanvas">Ledger</a>
+    <a href="#market" class="mobile-nav-link" data-bs-dismiss="offcanvas">Market</a>
+    <a href="#pricing" class="mobile-nav-link" data-bs-dismiss="offcanvas">Pricing</a>
+    <div class="mt-4 pt-4 border-top">
+      <a href="#final" class="btn-ng-primary w-100 justify-content-center" data-bs-dismiss="offcanvas">Get Started</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================
+     HERO — NEW (Editorial + Pulse Network)
+     ============================================ -->
+<section class="hero-new" id="hero" aria-label="Hero">
+  <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+  <div class="hero-grid-bg" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+
+  <div class="container hero-content">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span>Decentralized IP Registry</span>
+        </div>
+
+        <h1 class="hero-headline-new">
+          <span class="line"><span class="line-inner">Your ideas,</span></span>
+          <span class="line"><span class="line-inner"><em>notarized</em></span></span>
+          <span class="line"><span class="line-inner">in code.</span></span>
+        </h1>
+
+        <p class="hero-subhead-new">Hash, timestamp, and notarize your work across a distributed ledger. Cryptographic proof of ownership in minutes — not months.</p>
+
+        <div class="hero-actions-new">
+          <a href="#pricing" class="btn-ng-primary">
+            <span>Register your first asset</span>
+            <i class="bi bi-arrow-right"></i>
+          </a>
+          <a href="#lab" class="btn-ng-secondary">
+            <i class="bi bi-flask"></i>
+            <span>Try the Lab</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="hero-visual">
+          <div class="pulse-container">
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <div class="pulse-core"></div>
+            <div class="pulse-labels">
+              <div class="pulse-label">SHA-256</div>
+              <div class="pulse-label">Immutable</div>
+              <div class="pulse-label">Global</div>
+              <div class="pulse-label">Verified</div>
+            </div>
+          </div>
+          <div class="hero-float-card">
+            <div class="val" id="heroFloatVal">14</div>
+            <div class="label">Active Nodes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row hero-stats-row g-4 mt-4">
+      <div class="col-6 col-md-3">
+        <div class="stat-item">
+          <div class="num" data-count="10482">0</div>
+          <div class="label">Assets Secured</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-item">
+          <div class="num" data-count="63">0</div>
+          <div class="label">Countries</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-item">
+          <div class="num">4m</div>
+          <div class="label">Avg. Time</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-item">
+          <div class="num">14</div>
+          <div class="label">Network Nodes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-ticker">
+    <div class="ticker-track">
+      <span class="ticker-item">SHA-256 Sealed</span>
+      <span class="ticker-item">Immutable Ledger</span>
+      <span class="ticker-item">Global Jurisdiction</span>
+      <span class="ticker-item">Zero-Knowledge Privacy</span>
+      <span class="ticker-item">Automated Licensing</span>
+      <span class="ticker-item">Smart Dispute Resolution</span>
+      <span class="ticker-item">SHA-256 Sealed</span>
+      <span class="ticker-item">Immutable Ledger</span>
+      <span class="ticker-item">Global Jurisdiction</span>
+      <span class="ticker-item">Zero-Knowledge Privacy</span>
+      <span class="ticker-item">Automated Licensing</span>
+      <span class="ticker-item">Smart Dispute Resolution</span>
+    </div>
+  </div>
+</section>
+
+<!-- Partners -->
+<section class="py-5 border-bottom" id="partners" aria-label="Trusted by">
+  <div class="container">
+    <div class="text-center mb-4">
+      <span class="section-label">Trusted by innovators at</span>
+    </div>
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-4 align-items-center justify-content-center text-center opacity-50">
+      <div class="col"><div class="font-serif fs-5" style="color:var(--ink-muted);">Vertex Labs</div></div>
+      <div class="col"><div class="font-serif fs-5" style="color:var(--ink-muted);">QuantumAI</div></div>
+      <div class="col"><div class="font-serif fs-5" style="color:var(--ink-muted);">BioForge</div></div>
+      <div class="col"><div class="font-serif fs-5" style="color:var(--ink-muted);">Nexus Energy</div></div>
+      <div class="col"><div class="font-serif fs-5" style="color:var(--ink-muted);">CipherWorks</div></div>
+      <div class="col"><div class="font-serif fs-5" style="color:var(--ink-muted);">Aether Corp</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Editorial -->
+<section class="section-ng editorial-ng" id="manifesto" aria-label="Manifesto">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-5">
+        <div class="sticky-lg-top" style="top:100px;">
+          <span class="section-label">Why it matters</span>
+          <h2 class="section-headline">Filing cabinets were never built for the <em>speed of invention.</em></h2>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <p class="reveal-ng fs-5 mb-4" style="color:var(--ink-soft);line-height:1.8;">Traditional registration runs through slow offices, paper trails, and jurisdiction-by-jurisdiction filings that can take 18 months or more.</p>
+        <p class="reveal-ng fs-5 mb-5" style="color:var(--ink-soft);line-height:1.8;">NextGen IP Shield replaces that queue with a single cryptographic action: hash your work, broadcast it to an independent network, and walk away with proof that anyone, anywhere, can verify instantly.</p>
+        <div class="stat-grid-ng reveal-ng">
+          <div class="stat-cell-ng"><div class="num" data-count="10482">0</div><div class="label">Assets Secured</div></div>
+          <div class="stat-cell-ng"><div class="num" data-count="63">0</div><div class="label">Countries</div></div>
+          <div class="stat-cell-ng"><div class="num">4m</div><div class="label">Avg. Registration</div></div>
+          <div class="stat-cell-ng"><div class="num">14</div><div class="label">Network Nodes</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Process -->
+<section class="section-ng" id="process" aria-label="Process">
+  <div class="container">
+    <div class="mb-5 mb-lg-6">
+      <span class="section-label">How it works</span>
+      <h2 class="section-headline">From file to proof in four steps.</h2>
+    </div>
+    <div class="process-list-ng">
+      <div class="process-step-ng reveal-ng">
+        <div class="process-num-ng">01</div>
+        <div>
+          <div class="process-title-ng">Submit & Hash</div>
+          <div class="process-desc-ng">Upload your work and we generate a unique SHA-256 fingerprint locally — the file itself is never transmitted or stored.</div>
+        </div>
+      </div>
+      <div class="process-step-ng reveal-ng">
+        <div class="process-num-ng">02</div>
+        <div>
+          <div class="process-title-ng">Network Notarization</div>
+          <div class="process-desc-ng">That hash is broadcast and confirmed across independent nodes, with no single party able to alter or revoke it.</div>
+        </div>
+      </div>
+      <div class="process-step-ng reveal-ng">
+        <div class="process-num-ng">03</div>
+        <div>
+          <div class="process-title-ng">Immutable Certificate</div>
+          <div class="process-desc-ng">You receive a timestamped certificate of registration — viewable, shareable, and verifiable by anyone, anytime.</div>
+        </div>
+      </div>
+      <div class="process-step-ng reveal-ng">
+        <div class="process-num-ng">04</div>
+        <div>
+          <div class="process-title-ng">License or Sell</div>
+          <div class="process-desc-ng">List your asset on the marketplace, set your terms, and collect royalties automatically as it is used or sold.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section-ng" id="features" aria-label="Capabilities">
+  <div class="container">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-end mb-5 gap-3">
+      <div>
+        <span class="section-label">Capabilities</span>
+        <h2 class="section-headline">Built for proof, not paperwork.</h2>
+      </div>
+      <div class="d-flex gap-2 flex-wrap">
+        <button class="btn btn-sm btn-outline-secondary filter-pill-ng active" data-filter="all" style="border-radius:100px;padding:0.5rem 1.125rem;font-size:0.8125rem;">All</button>
+        <button class="btn btn-sm btn-outline-secondary filter-pill-ng" data-filter="security" style="border-radius:100px;padding:0.5rem 1.125rem;font-size:0.8125rem;">Security</button>
+        <button class="btn btn-sm btn-outline-secondary filter-pill-ng" data-filter="market" style="border-radius:100px;padding:0.5rem 1.125rem;font-size:0.8125rem;">Market</button>
+        <button class="btn btn-sm btn-outline-secondary filter-pill-ng" data-filter="ai" style="border-radius:100px;padding:0.5rem 1.125rem;font-size:0.8125rem;">AI</button>
+      </div>
+    </div>
+    <div class="bento-grid-ng" id="bentoGrid">
+      <div class="bento-card-ng bento-wide" data-category="security">
+        <div class="bento-icon-ng">◈</div>
+        <h3>Cryptographic Registration</h3>
+        <p>Hash and timestamp any file format directly to the ledger — sealed the moment you upload it, with the original file never leaving your device.</p>
+        <div class="bento-meta-ng" onclick="this.closest('.bento-card-ng').classList.toggle('expanded')">
+          <span class="dot"></span>
+          <span>sha256:9f1c…e44a confirmed across 14 nodes</span>
+        </div>
+      </div>
+      <div class="bento-card-ng" data-category="security">
+        <div class="bento-icon-ng">✓</div>
+        <h3>Instant Verification</h3>
+        <p>Anyone can confirm authorship and filing date in seconds — no office visit required.</p>
+      </div>
+      <div class="bento-card-ng" data-category="security">
+        <div class="bento-icon-ng">◊</div>
+        <h3>Smart Dispute Resolution</h3>
+        <p>Encoded arbitration logic settles ownership conflicts against transparent rules.</p>
+      </div>
+      <div class="bento-card-ng" data-category="market">
+        <div class="bento-icon-ng">↻</div>
+        <h3>Licensing Engine</h3>
+        <p>Turn any registered asset into a license with automatic royalty splits.</p>
+      </div>
+      <div class="bento-card-ng" data-category="market">
+        <div class="bento-icon-ng">◎</div>
+        <h3>Global Marketplace</h3>
+        <p>List, license, or sell your IP to verified buyers worldwide.</p>
+      </div>
+      <div class="bento-card-ng bento-wide" data-category="ai">
+        <div class="bento-icon-ng">◇</div>
+        <h3>AI Counsel</h3>
+        <p>Get instant, plain-language answers on patents, copyright, trademarks — day or night.</p>
+        <div class="bento-meta-ng" onclick="document.getElementById('ai').scrollIntoView({behavior:'smooth'})">
+          <span class="dot"></span>
+          <span>"How do I register a patent?" — answered in 2.1s</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trust -->
+<section class="py-5 border-top border-bottom" id="trust" aria-label="Trust and Security">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="d-flex gap-3">
+          <div class="flex-shrink-0 d-flex align-items-center justify-content-center rounded-2" style="width:40px;height:40px;background:var(--pigment-wash);color:var(--pigment);font-size:1.125rem;">◈</div>
+          <div>
+            <h4 class="h6 mb-1">End-to-End Encryption</h4>
+            <p class="small mb-0" style="color:var(--ink-muted);">Files hashed locally via Web Crypto API</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="d-flex gap-3">
+          <div class="flex-shrink-0 d-flex align-items-center justify-content-center rounded-2" style="width:40px;height:40px;background:var(--pigment-wash);color:var(--pigment);font-size:1.125rem;">◎</div>
+          <div>
+            <h4 class="h6 mb-1">Decentralized Anchoring</h4>
+            <p class="small mb-0" style="color:var(--ink-muted);">14 independent nodes, zero single points</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="d-flex gap-3">
+          <div class="flex-shrink-0 d-flex align-items-center justify-content-center rounded-2" style="width:40px;height:40px;background:var(--pigment-wash);color:var(--pigment);font-size:1.125rem;">◊</div>
+          <div>
+            <h4 class="h6 mb-1">Zero-Knowledge Privacy</h4>
+            <p class="small mb-0" style="color:var(--ink-muted);">Only the fingerprint is ever public</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="d-flex gap-3">
+          <div class="flex-shrink-0 d-flex align-items-center justify-content-center rounded-2" style="width:40px;height:40px;background:var(--pigment-wash);color:var(--pigment);font-size:1.125rem;">◉</div>
+          <div>
+            <h4 class="h6 mb-1">Sub-Minute Registration</h4>
+            <p class="small mb-0" style="color:var(--ink-muted);">From upload to global confirmation</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lab -->
+<section class="section-ng" id="lab" aria-label="Interactive Lab">
+  <div class="container">
+    <div class="mb-5" style="max-width:600px;">
+      <span class="section-label">Interactive Lab</span>
+      <h2 class="section-headline">Experience the <em>hash.</em></h2>
+      <p class="mt-3" style="color:var(--ink-soft);line-height:1.7;">Drop any file to simulate the cryptographic sealing process. See exactly how your IP becomes immutable proof.</p>
+    </div>
+    <div class="lab-workspace-ng">
+      <div class="lab-dropzone-ng" id="labDropzone">
+        <div class="d-flex align-items-center justify-content-center rounded-2 mb-3" style="width:56px;height:56px;background:var(--paper-warm);font-size:1.5rem;color:var(--ink-muted);">
+          <i class="bi bi-cloud-upload"></i>
+        </div>
+        <h3 class="h5 mb-2">Drop a file here</h3>
+        <p class="small mb-3" style="color:var(--ink-muted);">Or click to browse. We compute the real SHA-256 hash in your browser.</p>
+        <button class="btn btn-dark" id="labBrowseBtn" style="font-size:0.8125rem;">Select File</button>
+        <input type="file" id="labFileInput" accept="*/*" class="d-none" aria-label="File upload">
+      </div>
+      <div class="lab-console-ng" id="labConsole">
+        <div class="d-flex gap-2 mb-3">
+          <div style="width:12px;height:12px;border-radius:50%;background:#ef4444;"></div>
+          <div style="width:12px;height:12px;border-radius:50%;background:#eab308;"></div>
+          <div style="width:12px;height:12px;border-radius:50%;background:#22c55e;"></div>
+        </div>
+        <div class="flex-grow-1 overflow-auto" id="labConsoleContent" style="font-size:0.8125rem;">
+          <div class="mb-1"><span style="color:var(--pigment);">$</span> nextgen-ip-shield ready</div>
+          <div class="mb-1"><span style="color:var(--pigment);">$</span> waiting for input...</div>
+        </div>
+        <div class="mt-3" style="width:100%;height:2px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;opacity:0;" id="labProgress">
+          <div style="height:100%;background:var(--pigment);width:0%;transition:width 0.3s linear;" id="labProgressBar"></div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4 p-4 rounded-3 border" id="labResult" style="background:var(--surface);display:none;">
+      <h4 class="h6 mb-3 d-flex align-items-center gap-2">
+        <i class="bi bi-check-circle-fill text-success"></i>
+        Registration Complete
+      </h4>
+      <div class="row g-3 mb-3">
+        <div class="col-md-4">
+          <div class="small text-uppercase mb-1" style="color:var(--ink-muted);font-size:0.625rem;letter-spacing:0.08em;">Hash</div>
+          <div class="font-monospace small" id="labResultHash">—</div>
+        </div>
+        <div class="col-md-4">
+          <div class="small text-uppercase mb-1" style="color:var(--ink-muted);font-size:0.625rem;letter-spacing:0.08em;">Timestamp</div>
+          <div class="font-monospace small" id="labResultTime">—</div>
+        </div>
+        <div class="col-md-4">
+          <div class="small text-uppercase mb-1" style="color:var(--ink-muted);font-size:0.625rem;letter-spacing:0.08em;">Block</div>
+          <div class="font-monospace small" id="labResultBlock">—</div>
+        </div>
+      </div>
+      <div class="d-flex gap-2 flex-wrap">
+        <button class="btn btn-outline-secondary btn-sm" id="labCopyHash">Copy Hash</button>
+        <button class="btn btn-primary btn-sm" id="labDownloadCert" style="background:var(--pigment);border-color:var(--pigment);">Download Certificate</button>
+        <button class="btn btn-outline-secondary btn-sm" id="labShare">Share</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI -->
+<section class="section-ng" id="ai" aria-label="AI Counsel">
+  <div class="container">
+    <div class="text-center mb-5" style="max-width:600px;margin:0 auto;">
+      <span class="section-label">AI Counsel</span>
+      <h2 class="section-headline">Ask before you <em>file.</em></h2>
+      <p class="mt-3" style="color:var(--ink-soft);line-height:1.7;">Get instant answers on intellectual property law, registration processes, and protection strategies.</p>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="ai-chat-ng">
+          <div class="ai-messages-ng" id="aiChatMessages">
+            <div class="ai-msg-ng bot">
+              <div class="ai-avatar-ng">◈</div>
+              <div class="ai-content-ng">Hello! I'm your IP Counsel AI. Ask me anything about patents, copyrights, trademarks, or how to protect your work.</div>
+            </div>
+          </div>
+          <div class="d-flex gap-2 flex-wrap px-4 pb-3" id="aiSuggestions">
+            <button class="btn btn-outline-secondary btn-sm" style="border-radius:100px;font-size:0.8125rem;">How do I register a patent?</button>
+            <button class="btn btn-outline-secondary btn-sm" style="border-radius:100px;font-size:0.8125rem;">Copyright vs trademark?</button>
+            <button class="btn btn-outline-secondary btn-sm" style="border-radius:100px;font-size:0.8125rem;">How long does protection last?</button>
+            <button class="btn btn-outline-secondary btn-sm" style="border-radius:100px;font-size:0.8125rem;">Can I sell my IP?</button>
+          </div>
+          <div class="d-flex gap-3 p-3 border-top" style="background:var(--paper);">
+            <input type="text" id="aiInput" class="form-control" placeholder="Ask your question..." style="border-radius:100px;padding:0.75rem 1.25rem;font-size:0.875rem;background:var(--surface);border-color:var(--border);">
+            <button id="aiSend" class="btn btn-primary flex-shrink-0" style="width:44px;height:44px;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;background:var(--pigment);border-color:var(--pigment);">
+              <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Ledger -->
+<section class="section-ng" id="ledger" aria-label="The Ledger">
+  <div class="container">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-end mb-4 gap-3">
+      <div>
+        <span class="section-label">The Ledger</span>
+        <h2 class="section-headline">Every registration, in public view.</h2>
+      </div>
+      <div class="d-flex gap-2 flex-wrap align-items-center">
+        <input type="text" class="form-control" id="ledgerSearch" placeholder="Search assets..." style="width:200px;border-radius:100px;padding:0.625rem 1rem 0.625rem 2.5rem;font-size:0.8125rem;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2716%27 height=%2716%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%2378716c%27 stroke-width=%272%27%3E%3Ccircle cx=%2711%27 cy=%2711%27 r=%278%27/%3E%3Cpath d=%27m21 21-4.35-4.35%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:14px center;background-size:16px;">
+        <select class="form-select" id="ledgerTypeFilter" style="width:auto;border-radius:100px;padding:0.625rem 1rem;font-size:0.8125rem;">
+          <option value="all">All Types</option>
+          <option value="Software">Software</option>
+          <option value="Biotech">Biotech</option>
+          <option value="Hardware">Hardware</option>
+          <option value="Energy">Energy</option>
+        </select>
+        <button class="btn btn-outline-secondary btn-sm" id="ledgerExport">Export</button>
+        <div class="d-flex align-items-center gap-2 px-3 py-2 rounded-pill border" style="font-family:var(--font-mono);font-size:0.6875rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--pigment);">
+          <span style="width:6px;height:6px;border-radius:50%;background:var(--pigment);animation:pulse 2s infinite;"></span>
+          Network Active
+        </div>
+      </div>
+    </div>
+    <div class="ledger-table-wrap-ng overflow-auto">
+      <table class="ledger-table-ng" role="table" aria-label="Registration ledger">
+        <thead>
+          <tr>
+            <th class="sortable" data-sort="block" role="columnheader">Block</th>
+            <th class="sortable" data-sort="asset" role="columnheader">Asset</th>
+            <th class="sortable d-none d-md-table-cell" data-sort="type" role="columnheader">Type</th>
+            <th class="sortable" data-sort="hash" role="columnheader">Hash</th>
+            <th class="sortable d-none d-lg-table-cell" data-sort="time" role="columnheader">Time</th>
+          </tr>
+        </thead>
+        <tbody id="ledgerBody"></tbody>
+      </table>
+    </div>
+    <div class="d-flex justify-content-center gap-2 mt-3" id="ledgerPagination"></div>
+  </div>
+</section>
+
+<!-- Marketplace -->
+<section class="section-ng" id="market" aria-label="Marketplace">
+  <div class="container">
+    <div class="mb-5">
+      <span class="section-label">Marketplace</span>
+      <h2 class="section-headline">Where protected ideas change hands.</h2>
+    </div>
+    <div class="market-grid-ng">
+      <div class="market-card-ng" data-id="1" data-price="5">
+        <span class="tag-ng">Software & AI</span>
+        <h3 class="h5 mt-3 mb-2">Revolutionary AI Algorithm</h3>
+        <p class="small mb-3" style="color:var(--ink-soft);">Training method for low-latency inference on edge devices.</p>
+        <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+          <span class="font-monospace fw-bold" style="color:var(--pigment);font-size:1.25rem;">5 ETH</span>
+          <span class="font-monospace small" style="color:var(--ink-muted);">0x71…4F2</span>
+        </div>
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn btn-outline-secondary btn-sm flex-fill watch-btn">Watch</button>
+          <button class="btn btn-primary btn-sm flex-fill add-to-cart" style="background:var(--pigment);border-color:var(--pigment);">Add to Cart</button>
+        </div>
+      </div>
+      <div class="market-card-ng" data-id="2" data-price="10">
+        <span class="tag-ng">Energy</span>
+        <h3 class="h5 mt-3 mb-2">Green Energy Patent</h3>
+        <p class="small mb-3" style="color:var(--ink-soft);">Modular solar-storage architecture for urban grids.</p>
+        <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+          <span class="font-monospace fw-bold" style="color:var(--pigment);font-size:1.25rem;">10 ETH</span>
+          <span class="font-monospace small" style="color:var(--ink-muted);">0x8A…C19</span>
+        </div>
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn btn-outline-secondary btn-sm flex-fill watch-btn">Watch</button>
+          <button class="btn btn-primary btn-sm flex-fill add-to-cart" style="background:var(--pigment);border-color:var(--pigment);">Add to Cart</button>
+        </div>
+      </div>
+      <div class="market-card-ng" data-id="3" data-price="7.5">
+        <span class="tag-ng">Biotech</span>
+        <h3 class="h5 mt-3 mb-2">Biotech Process</h3>
+        <p class="small mb-3" style="color:var(--ink-soft);">Fermentation process for accelerated protein synthesis.</p>
+        <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+          <span class="font-monospace fw-bold" style="color:var(--pigment);font-size:1.25rem;">7.5 ETH</span>
+          <span class="font-monospace small" style="color:var(--ink-muted);">0x3D…77B</span>
+        </div>
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn btn-outline-secondary btn-sm flex-fill watch-btn">Watch</button>
+          <button class="btn btn-primary btn-sm flex-fill add-to-cart" style="background:var(--pigment);border-color:var(--pigment);">Add to Cart</button>
+        </div>
+      </div>
+      <div class="market-card-ng" data-id="4" data-price="15">
+        <span class="tag-ng">Hardware</span>
+        <h3 class="h5 mt-3 mb-2">Quantum Computing</h3>
+        <p class="small mb-3" style="color:var(--ink-soft);">Error-correction for scalable qubit arrays.</p>
+        <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+          <span class="font-monospace fw-bold" style="color:var(--pigment);font-size:1.25rem;">15 ETH</span>
+          <span class="font-monospace small" style="color:var(--ink-muted);">0x9F…001</span>
+        </div>
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn btn-outline-secondary btn-sm flex-fill watch-btn">Watch</button>
+          <button class="btn btn-primary btn-sm flex-fill add-to-cart" style="background:var(--pigment);border-color:var(--pigment);">Add to Cart</button>
+        </div>
+      </div>
+      <div class="market-card-ng" data-id="5" data-price="8">
+        <span class="tag-ng">Software & AI</span>
+        <h3 class="h5 mt-3 mb-2">ML Translation Model</h3>
+        <p class="small mb-3" style="color:var(--ink-soft);">Low-resource multilingual translation architecture.</p>
+        <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+          <span class="font-monospace fw-bold" style="color:var(--pigment);font-size:1.25rem;">8 ETH</span>
+          <span class="font-monospace small" style="color:var(--ink-muted);">0x55…EE3</span>
+        </div>
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn btn-outline-secondary btn-sm flex-fill watch-btn">Watch</button>
+          <button class="btn btn-primary btn-sm flex-fill add-to-cart" style="background:var(--pigment);border-color:var(--pigment);">Add to Cart</button>
+        </div>
+      </div>
+      <div class="market-card-ng" data-id="6" data-price="12">
+        <span class="tag-ng">Software & AI</span>
+        <h3 class="h5 mt-3 mb-2">Blockchain Protocol</h3>
+        <p class="small mb-3" style="color:var(--ink-soft);">Consensus mechanism optimized for low energy use.</p>
+        <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+          <span class="font-monospace fw-bold" style="color:var(--pigment);font-size:1.25rem;">12 ETH</span>
+          <span class="font-monospace small" style="color:var(--ink-muted);">0x2B…9A4</span>
+        </div>
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn btn-outline-secondary btn-sm flex-fill watch-btn">Watch</button>
+          <button class="btn btn-primary btn-sm flex-fill add-to-cart" style="background:var(--pigment);border-color:var(--pigment);">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section-ng" id="pricing" aria-label="Pricing">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Pricing</span>
+      <h2 class="section-headline">Start free. Scale when you're ready.</h2>
+      <div class="d-inline-flex align-items-center gap-1 p-1 rounded-pill border mt-4" style="background:var(--surface);">
+        <button class="btn btn-sm rounded-pill pricing-toggle-btn active" data-period="monthly" style="padding:0.625rem 1.5rem;font-weight:600;">Monthly</button>
+        <button class="btn btn-sm rounded-pill pricing-toggle-btn" data-period="yearly" style="padding:0.625rem 1.5rem;font-weight:600;">
+          Yearly
+          <span class="badge rounded-pill ms-1" style="background:var(--pigment-wash);color:var(--pigment);font-size:0.6875rem;">Save 20%</span>
+        </button>
+      </div>
+    </div>
+    <div class="pricing-grid-ng">
+      <div class="price-card-ng" data-tier="creator">
+        <h3>Creator</h3>
+        <div class="price-tagline-ng">For individual inventors</div>
+        <div class="price-amount-ng" data-monthly="Free" data-yearly="Free">Free</div>
+        <ul class="price-features-ng">
+          <li>3 registrations / month</li>
+          <li>Public certificates</li>
+          <li>Community dispute pool</li>
+          <li>Standard AI Counsel</li>
+          <li class="disabled">Licensing engine</li>
+          <li class="disabled">Priority support</li>
+        </ul>
+        <button class="btn-price-ng" onclick="app.selectPlan('creator')">Get started</button>
+      </div>
+      <div class="price-card-ng popular" data-tier="studio">
+        <span class="price-ribbon-ng">Most Popular</span>
+        <h3>Studio</h3>
+        <div class="price-tagline-ng">For active creators & teams</div>
+        <div class="price-amount-ng" data-monthly="$39<span>/mo</span>" data-yearly="$374<span>/yr</span>">$39<span>/mo</span></div>
+        <ul class="price-features-ng">
+          <li>Unlimited registrations</li>
+          <li>Licensing & royalty automation</li>
+          <li>Priority notarization</li>
+          <li>Priority AI Counsel</li>
+          <li>API access</li>
+          <li>Team collaboration</li>
+        </ul>
+        <button class="btn-price-ng" onclick="app.selectPlan('studio')">Start with Studio</button>
+      </div>
+      <div class="price-card-ng" data-tier="enterprise">
+        <h3>Enterprise</h3>
+        <div class="price-tagline-ng">For labs & portfolios</div>
+        <div class="price-amount-ng" data-monthly="Custom" data-yearly="Custom">Custom</div>
+        <ul class="price-features-ng">
+          <li>Dedicated node access</li>
+          <li>Bulk & API registration</li>
+          <li>Custom arbitration terms</li>
+          <li>Dedicated success manager</li>
+          <li>SLA guarantees</li>
+          <li>White-label options</li>
+        </ul>
+        <button class="btn-price-ng" onclick="app.selectPlan('enterprise')">Talk to sales</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section-ng" id="testimonials" aria-label="Testimonials">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Testimonials</span>
+      <h2 class="section-headline">Loved by inventors worldwide.</h2>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="testimonial-card-ng" id="testimonialCard">
+          <div class="testimonial-stars-ng" id="testimonialStars">★★★★★</div>
+          <div class="testimonial-quote-ng" id="testimonialQuote">"NextGen IP Shield has changed how I protect my work. It's secure, transparent, and incredibly easy to use."</div>
+          <div class="d-flex align-items-center justify-content-center gap-3">
+            <div class="d-flex align-items-center justify-content-center rounded-circle fw-bold text-white" id="testimonialAvatar" style="width:44px;height:44px;background:var(--pigment);font-size:0.875rem;">JD</div>
+            <div class="text-start">
+              <strong class="d-block" id="testimonialName">John Doe</strong>
+              <span class="small" style="color:var(--ink-muted);" id="testimonialRole">Independent Inventor</span>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+          <button class="t-dot-ng active" data-index="0" style="width:10px;height:10px;border-radius:50%;border:1px solid var(--border);background:transparent;cursor:pointer;padding:0;transition:all 0.4s;" aria-label="Testimonial 1"></button>
+          <button class="t-dot-ng" data-index="1" style="width:10px;height:10px;border-radius:50%;border:1px solid var(--border);background:transparent;cursor:pointer;padding:0;transition:all 0.4s;" aria-label="Testimonial 2"></button>
+          <button class="t-dot-ng" data-index="2" style="width:10px;height:10px;border-radius:50%;border:1px solid var(--border);background:transparent;cursor:pointer;padding:0;transition:all 0.4s;" aria-label="Testimonial 3"></button>
+          <button class="t-dot-ng" data-index="3" style="width:10px;height:10px;border-radius:50%;border:1px solid var(--border);background:transparent;cursor:pointer;padding:0;transition:all 0.4s;" aria-label="Testimonial 4"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Comparison -->
+<section class="section-ng" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);" id="comparison" aria-label="Comparison">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-label">Comparison</span>
+      <h2 class="section-headline">How we stack up.</h2>
+    </div>
+    <div class="table-responsive">
+      <table class="comparison-table-ng">
+        <thead>
+          <tr><th>Feature</th><th>NextGen</th><th>Traditional</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Time to protection</td><td>Minutes</td><td>18+ months</td></tr>
+          <tr><td>Proof of authorship</td><td>Cryptographically verifiable</td><td>Paper records</td></tr>
+          <tr><td>Cost</td><td>One flat rate</td><td>Variable per jurisdiction</td></tr>
+          <tr><td>Global coverage</td><td>One record, everywhere</td><td>Re-file per territory</td></tr>
+          <tr><td>Dispute resolution</td><td>Transparent arbitration</td><td>Closed review, slow appeals</td></tr>
+          <tr><td>Licensing</td><td>Automatic royalties</td><td>Manual contracts</td></tr>
+          <tr><td>Privacy</td><td>Zero-knowledge hashes</td><td>Full file submission</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section-ng" id="faq" aria-label="FAQ">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="mb-5">
+          <span class="section-label">Questions</span>
+          <h2 class="section-headline">Answered for the record.</h2>
+        </div>
+        <div class="mb-4">
+          <input type="text" class="form-control" id="faqSearch" placeholder="Search questions..." style="border-radius:100px;padding:0.875rem 1.5rem 0.875rem 3rem;font-size:0.9375rem;background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2718%27 height=%2718%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%2378716c%27 stroke-width=%272%27%3E%3Ccircle cx=%2711%27 cy=%2711%27 r=%278%27/%3E%3Cpath d=%27m21 21-4.35-4.35%27/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:18px center;background-size:18px;">
+        </div>
+        <div class="faq-list-ng" id="faqList">
+          <div class="faq-item-ng">
+            <button class="faq-trigger-ng" aria-expanded="false">Is registration legally binding?<span class="faq-icon-ng"></span></button>
+            <div class="faq-answer-ng"><p>Your ledger record is strong evidence of when and by whom a work was created, and many disputes settle on that basis alone. It complements, rather than replaces, formal filings.</p></div>
+          </div>
+          <div class="faq-item-ng">
+            <button class="faq-trigger-ng" aria-expanded="false">What types of IP can I register?<span class="faq-icon-ng"></span></button>
+            <div class="faq-answer-ng"><p>Patents, copyrighted works, trademarks, trade secrets, and any creative or technical asset you can represent as a file — code, designs, manuscripts, audio, datasets, and more.</p></div>
+          </div>
+          <div class="faq-item-ng">
+            <button class="faq-trigger-ng" aria-expanded="false">How is my file kept private?<span class="faq-icon-ng"></span></button>
+            <div class="faq-answer-ng"><p>Only the cryptographic hash of your file is published — a fixed-length fingerprint that proves the file existed at that moment, without revealing its contents.</p></div>
+          </div>
+          <div class="faq-item-ng">
+            <button class="faq-trigger-ng" aria-expanded="false">Can I dispute someone else's filing?<span class="faq-icon-ng"></span></button>
+            <div class="faq-answer-ng"><p>Yes. Disputes enter a transparent arbitration queue where evidence and timestamps are reviewed against published rules, and outcomes are recorded back to the ledger.</p></div>
+          </div>
+          <div class="faq-item-ng">
+            <button class="faq-trigger-ng" aria-expanded="false">Can I sell or license after registering?<span class="faq-icon-ng"></span></button>
+            <div class="faq-answer-ng"><p>Yes — list it on the marketplace, set your terms, and the licensing engine handles royalty splits automatically as it's used or resold.</p></div>
+          </div>
+        </div>
+        <div class="text-center py-5 text-muted" id="faqNoResults" style="display:none;">No questions found matching your search.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-ng" id="final" aria-label="Get Started">
+  <div class="cta-blob"></div>
+  <div class="cta-blob"></div>
+  <div class="container position-relative" style="z-index:2;">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 text-center">
+        <span class="section-label" style="color:var(--pigment);">Final Exhibit</span>
+        <h2 class="section-headline mb-4" style="font-size:clamp(2.5rem,6vw,4rem);">Put your name on <em>what's yours.</em></h2>
+        <p class="mb-5 mx-auto" style="color:rgba(255,255,255,0.55);max-width:400px;line-height:1.7;">Register your first asset in the time it takes to read this sentence twice.</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap mb-5">
+          <input type="email" class="form-control" placeholder="Enter your email" id="finalEmail" style="width:280px;border-radius:100px;padding:0.875rem 1.5rem;background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12);color:var(--paper);">
+          <button class="btn btn-primary" id="finalBtn" style="border-radius:100px;padding:0.875rem 2rem;background:var(--pigment);border-color:var(--pigment);font-weight:600;">Get Started →</button>
+        </div>
+        <div class="d-flex gap-4 justify-content-center flex-wrap opacity-50">
+          <span style="font-size:0.6875rem;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.45);">◈ End-to-end encrypted</span>
+          <span style="font-size:0.6875rem;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.45);">✓ No credit card required</span>
+          <span style="font-size:0.6875rem;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.45);">◉ Instant setup</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer-ng" role="contentinfo">
+  <div class="container">
+    <div class="row g-4 align-items-start">
+      <div class="col-md-4">
+        <strong class="d-block mb-1" style="font-size:1rem;color:var(--ink);font-family:var(--font-serif);">NextGen IP Shield</strong>
+        <div style="color:var(--ink-muted);">A decentralized registry.</div>
+      </div>
+      <div class="col-md-4">
+        <div class="d-flex gap-4 flex-wrap">
+          <a href="#features">Capabilities</a>
+          <a href="#process">Process</a>
+          <a href="#lab">Lab</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h4 class="h6 mb-3">Stay updated</h4>
+        <div class="d-flex gap-2">
+          <input type="email" class="form-control" placeholder="Your email" id="footerEmail" style="border-radius:100px;padding:0.625rem 1rem;font-size:0.8125rem;">
+          <button class="btn btn-dark" id="footerSubscribe" style="border-radius:100px;padding:0.625rem 1.25rem;">→</button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4 pt-4 border-top text-center font-monospace small" style="color:var(--ink-muted);">© 2026</div>
+  </div>
+</footer>
+
+<!-- Theme Toggle -->
+<button class="theme-toggle-ng" id="themeToggle" aria-label="Toggle theme">☀</button>
+
+<!-- Back to Top -->
+<button class="back-to-top-ng" id="backToTop" aria-label="Back to top">
+  <i class="bi bi-arrow-up"></i>
+</button>
+
+<!-- Modal -->
+<div class="modal fade modal-ng" id="mainModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Modal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer" id="modalFooter"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function() {
+  'use strict';
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const state = {
+    theme: localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
+    cart: JSON.parse(localStorage.getItem('cart') || '[]'),
+    watched: JSON.parse(localStorage.getItem('watched') || '[]'),
+    ledgerPage: 0,
+    ledgerSort: { col: 'block', dir: 'desc' },
+    ledgerFilter: 'all',
+    ledgerSearch: '',
+    pricingPeriod: 'monthly',
+    testimonialIndex: 0,
+    cartOpen: false,
+    labProcessing: false
+  };
+
+  const testimonials = [
+    { quote: "NextGen IP Shield has changed how I protect my work. It's secure, transparent, and incredibly easy to use.", author: "John Doe", role: "Independent Inventor", stars: 5, avatar: "JD" },
+    { quote: "As an innovator, I've always worried about IP protection. This platform gives me peace of mind.", author: "Jane Smith", role: "Product Designer", stars: 5, avatar: "JS" },
+    { quote: "The blockchain integration is brilliant. It gives us an immutable record of research.", author: "Dr. Robert Johnson", role: "Research Lead", stars: 5, avatar: "RJ" },
+    { quote: "We registered our entire model architecture in one afternoon. The licensing engine paid for itself.", author: "Mara Chen", role: "Founder, Software Studio", stars: 5, avatar: "MC" }
+  ];
+
+  const aiResponses = {
+    patent: 'To register a patent, document your invention with detailed descriptions and claims. Our platform timestamps your documentation as proof of conception while you prepare formal filings.',
+    copyright: 'Copyright protects original works automatically upon creation. Our service adds an immutable timestamp and cryptographic proof that strengthens your claim in disputes.',
+    trademark: 'Trademarks protect brand identifiers like names, logos, and slogans. We can register your trademark materials with cryptographic proof of first use.',
+    difference: 'Copyright protects creative works (books, music, code), while trademarks protect brand identifiers (names, logos). Patents protect inventions, and trade secrets protect confidential business information.',
+    long: 'Copyright protection generally lasts for the life of the author plus 70 years. Patents last 20 years from filing. Trademarks can last indefinitely with continued use and renewal.',
+    sell: 'Yes! Once registered on our platform, you can list your IP in the marketplace, license it with automated royalty splits, or sell it outright to verified buyers.',
+    cost: 'Our Creator plan is free for 3 registrations per month. Studio is $39/month for unlimited registrations and licensing. Enterprise pricing is custom based on your needs.',
+    time: 'Registration takes approximately 4 minutes from upload to network confirmation. Compare that to 18+ months for traditional patent filings.',
+    hash: 'We use SHA-256, a cryptographic hash function that generates a unique 64-character fingerprint of your file. Even a single bit change produces a completely different hash.',
+    privacy: 'Your actual file never leaves your device. Only the hash (a fixed-length fingerprint) is published to the ledger. No one can reverse-engineer your file from the hash.',
+    default: 'That is a great question about intellectual property. I can help with patents, copyrights, trademarks, registration processes, licensing, and dispute resolution. Could you provide more details?'
+  };
+
+  function applyTheme() {
+    document.documentElement.setAttribute('data-bs-theme', state.theme);
+    document.getElementById('themeToggle').textContent = state.theme === 'light' ? '☀' : '☾';
+  }
+
+  function toggleTheme() {
+    state.theme = state.theme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', state.theme);
+    applyTheme();
+    showToast('Theme updated', 'Switched to ' + state.theme + ' mode', 'info');
+  }
+
+  function showToast(title, body, type) {
+    type = type || 'info';
+    const container = document.getElementById('toastContainer');
+    const el = document.createElement('div');
+    el.className = 'toast-ng toast-' + type;
+    const icon = type === 'success' ? '✓' : type === 'error' ? '!' : 'ℹ';
+    el.innerHTML = '<div class="toast-icon">' + icon + '</div><div><div class="toast-title">' + title + '</div><div class="toast-body">' + body + '</div></div>';
+    container.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('show'));
+    setTimeout(() => {
+      el.classList.remove('show');
+      setTimeout(() => el.remove(), 500);
+    }, 5000);
+  }
+
+  /* ============================================
+     HERO — New Canvas + Pulse
+     ============================================ */
+  function initHero() {
+    const canvas = document.getElementById('heroCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let mouseX = 0, mouseY = 0;
+    let time = 0;
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio, 2);
+      width = canvas.width = canvas.offsetWidth * dpr;
+      height = canvas.height = canvas.offsetHeight * dpr;
+      ctx.scale(dpr, dpr);
+      width /= dpr;
+      height /= dpr;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    const PARTICLE_COUNT = 60;
+    const CONNECTION_DIST = 120;
+    const particles = [];
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = (Math.random() - 0.5) * 0.3;
+        this.radius = Math.random() * 1.2 + 0.6;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+        const dx = this.x - mouseX;
+        const dy = this.y - mouseY;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 150) {
+          const force = (150 - dist) / 150;
+          this.x += (dx / dist) * force * 1.2;
+          this.y += (dy / dist) * force * 1.2;
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(194, 65, 12, 0.4)';
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
+
+    function drawNetwork() {
+      if (prefersReducedMotion) return;
+      ctx.clearRect(0, 0, width, height);
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < CONNECTION_DIST) {
+            const opacity = (1 - dist / CONNECTION_DIST) * 0.2;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = 'rgba(194, 65, 12, ' + opacity + ')';
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+      particles.forEach(p => { p.update(); p.draw(); });
+      time++;
+      requestAnimationFrame(drawNetwork);
+    }
+
+    if (!prefersReducedMotion) drawNetwork();
+
+    let lastMove = 0;
+    document.addEventListener('mousemove', e => {
+      const now = Date.now();
+      if (now - lastMove < 32) return;
+      lastMove = now;
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    // Count up animation
+    document.querySelectorAll('.stat-item .num[data-count]').forEach(el => {
+      const target = parseInt(el.dataset.count);
+      const duration = 2000;
+      let startTime = null;
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(eased * target).toLocaleString();
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  /* ============================================
+     NAVBAR — Bootstrap + Scroll behavior
+     ============================================ */
+  function initNav() {
+    const nav = document.getElementById('nav');
+    const backToTop = document.getElementById('backToTop');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          nav.classList.toggle('scrolled', window.scrollY > 80);
+          backToTop.classList.toggle('visible', window.scrollY > 600);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const href = a.getAttribute('href');
+        if (href === '#') return;
+        e.preventDefault();
+        const t = document.querySelector(href);
+        if (t) t.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  }
+
+  /* ============================================
+     MOBILE AUTO-LAYOUT FUNCTIONS
+     ============================================ */
+  function initMobileLayout() {
+    // Detect touch device and adjust interactions
+    const isTouch = window.matchMedia('(hover: none)').matches;
+    const isMobile = window.innerWidth < 768;
+
+    // Adjust hero visual for very small screens
+    function adjustHero() {
+      const visual = document.querySelector('.hero-visual');
+      if (!visual) return;
+      if (window.innerWidth < 576) {
+        visual.style.minHeight = '250px';
+      } else {
+        visual.style.minHeight = '400px';
+      }
+    }
+
+    // Auto-collapse mobile menu on resize to desktop
+    function handleResize() {
+      const offcanvas = document.getElementById('mobileMenu');
+      if (window.innerWidth >= 992 && offcanvas.classList.contains('show')) {
+        const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvas);
+        if (bsOffcanvas) bsOffcanvas.hide();
+      }
+      adjustHero();
+      // Re-render ledger for responsive columns
+      renderLedger();
+    }
+
+    window.addEventListener('resize', debounce(handleResize, 150));
+    adjustHero();
+
+    // Optimize scroll performance on mobile
+    if (isTouch) {
+      document.body.style.overscrollBehavior = 'none';
+    }
+
+    // Detect orientation change
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        handleResize();
+      }, 300);
+    });
+  }
+
+  function debounce(fn, ms) {
+    let timer;
+    return function(...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn.apply(this, args), ms);
+    };
+  }
+
+  function initScrollReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal-ng, .bento-card-ng, .market-card-ng, .process-step-ng').forEach(el => observer.observe(el));
+  }
+
+  function initFeatures() {
+    document.querySelectorAll('.filter-pill-ng').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-pill-ng').forEach(b => {
+          b.classList.remove('active');
+          b.classList.remove('btn-dark');
+          b.classList.add('btn-outline-secondary');
+        });
+        btn.classList.add('active');
+        btn.classList.remove('btn-outline-secondary');
+        btn.classList.add('btn-dark');
+        const filter = btn.dataset.filter;
+        document.querySelectorAll('.bento-card-ng').forEach(card => {
+          if (filter === 'all' || card.dataset.category === filter) {
+            card.style.display = '';
+            setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 10);
+          } else {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => { card.style.display = 'none'; }, 400);
+          }
+        });
+      });
+    });
+  }
+
+  function initLab() {
+    const dropzone = document.getElementById('labDropzone');
+    const input = document.getElementById('labFileInput');
+    const consoleContent = document.getElementById('labConsoleContent');
+    const progress = document.getElementById('labProgress');
+    const bar = document.getElementById('labProgressBar');
+    const result = document.getElementById('labResult');
+
+    function addLine(html, delay) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          const line = document.createElement('div');
+          line.className = 'mb-1';
+          line.innerHTML = html;
+          consoleContent.appendChild(line);
+          consoleContent.scrollTop = consoleContent.scrollHeight;
+          resolve();
+        }, delay || 0);
+      });
+    }
+
+    async function processFile(file) {
+      if (state.labProcessing) return;
+      state.labProcessing = true;
+      dropzone.classList.add('dragover');
+      result.style.display = 'none';
+      consoleContent.innerHTML = '';
+      await addLine('<span style="color:var(--pigment);">$</span> reading file <span style="color:#eab308">' + file.name + '</span> (' + (file.size/1024).toFixed(1) + ' KB)', 0);
+      await addLine('<span style="color:var(--pigment);">$</span> computing SHA-256 fingerprint...', 400);
+      progress.style.opacity = '1';
+      let p = 0;
+      const interval = setInterval(() => {
+        p += Math.random() * 15;
+        if (p >= 100) { p = 100; clearInterval(interval); }
+        bar.style.width = p + '%';
+      }, 200);
+      await addLine('<span style="color:var(--pigment);">$</span> chunking data <span style="color:#22c55e;">[OK]</span>', 600);
+      await addLine('<span style="color:var(--pigment);">$</span> running hash rounds...', 500);
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        await addLine('<span style="color:var(--pigment);">$</span> hash: <span style="color:#38bdf8;">' + hashHex.substring(0, 32) + '...</span>', 300);
+        await addLine('<span style="color:var(--pigment);">$</span> broadcasting to network nodes...', 400);
+        for (let i = 1; i <= 14; i++) await addLine('<span style="color:var(--pigment);">$</span> node ' + i + ' <span style="color:#22c55e;">confirmed</span>', i === 14 ? 400 : 80);
+        await addLine('<span style="color:var(--pigment);">$</span> <span style="color:#22c55e;">✓ SEALED — Certificate issued</span>', 500);
+        dropzone.classList.remove('dragover');
+        document.getElementById('labResultHash').textContent = '0x' + hashHex.substring(0, 16);
+        document.getElementById('labResultTime').textContent = new Date().toISOString().replace(/\.\d{3}Z/, 'Z');
+        document.getElementById('labResultBlock').textContent = (104900 + Math.floor(Math.random()*100)).toLocaleString();
+        result.style.display = 'block';
+        progress.style.opacity = '0';
+        bar.style.width = '0%';
+        showToast('Hash Generated', 'Real SHA-256 computed for ' + file.name, 'success');
+      } catch (err) {
+        await addLine('<span style="color:var(--pigment);">$</span> <span style="color:#ef4444;">Error: ' + err.message + '</span>', 0);
+        showToast('Error', 'Failed to compute hash', 'error');
+      }
+      state.labProcessing = false;
+    }
+
+    document.getElementById('labBrowseBtn').addEventListener('click', () => input.click());
+    input.addEventListener('change', e => { if (e.target.files.length) processFile(e.target.files[0]); });
+    dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+    dropzone.addEventListener('drop', e => {
+      e.preventDefault(); dropzone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) processFile(e.dataTransfer.files[0]);
+    });
+
+    document.getElementById('labCopyHash').addEventListener('click', () => {
+      navigator.clipboard.writeText(document.getElementById('labResultHash').textContent).then(() => showToast('Copied', 'Hash copied to clipboard', 'success'));
+    });
+    document.getElementById('labDownloadCert').addEventListener('click', () => {
+      const cert = 'CERTIFICATE OF REGISTRATION\nHash: ' + document.getElementById('labResultHash').textContent + '\nTimestamp: ' + document.getElementById('labResultTime').textContent + '\nBlock: ' + document.getElementById('labResultBlock').textContent + '\nStatus: SEALED';
+      const blob = new Blob([cert], {type: 'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'certificate.txt'; a.click();
+      showToast('Downloaded', 'Certificate saved', 'success');
+    });
+    document.getElementById('labShare').addEventListener('click', () => {
+      const hash = document.getElementById('labResultHash').textContent;
+      if (navigator.share) navigator.share({title: 'IP Registration', text: 'Registered IP: ' + hash});
+      else navigator.clipboard.writeText('Registered IP: ' + hash).then(() => showToast('Copied', 'Share link copied', 'success'));
+    });
+  }
+
+  function initAI() {
+    const input = document.getElementById('aiInput');
+    const send = document.getElementById('aiSend');
+    const body = document.getElementById('aiChatMessages');
+
+    function sendMsg() {
+      const text = input.value.trim(); if (!text) return;
+      input.value = '';
+      const userMsg = document.createElement('div');
+      userMsg.className = 'ai-msg-ng user';
+      userMsg.innerHTML = '<div class="ai-avatar-ng">◉</div><div class="ai-content-ng">' + escapeHtml(text) + '</div>';
+      body.appendChild(userMsg); body.scrollTop = body.scrollHeight;
+
+      const typing = document.createElement('div');
+      typing.className = 'ai-msg-ng bot';
+      typing.innerHTML = '<div class="ai-avatar-ng">◈</div><div class="ai-content-ng" style="display:flex;gap:4px;padding:16px 20px;"><span style="width:6px;height:6px;border-radius:50%;background:var(--ink-muted);animation:pulse 1.4s infinite"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--ink-muted);animation:pulse 1.4s infinite 0.2s"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--ink-muted);animation:pulse 1.4s infinite 0.4s"></span></div>';
+      body.appendChild(typing); body.scrollTop = body.scrollHeight;
+
+      setTimeout(() => {
+        typing.remove();
+        const botMsg = document.createElement('div');
+        botMsg.className = 'ai-msg-ng bot';
+        botMsg.innerHTML = '<div class="ai-avatar-ng">◈</div><div class="ai-content-ng">' + getAIResponse(text) + '</div>';
+        body.appendChild(botMsg); body.scrollTop = body.scrollHeight;
+      }, 1200 + Math.random() * 800);
+    }
+
+    send.addEventListener('click', sendMsg);
+    input.addEventListener('keypress', e => { if (e.key === 'Enter') sendMsg(); });
+    document.getElementById('aiSuggestions').querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('click', () => { input.value = btn.textContent; sendMsg(); });
+    });
+  }
+
+  function getAIResponse(text) {
+    const t = text.toLowerCase();
+    if (t.includes('patent')) return aiResponses.patent;
+    if (t.includes('copyright')) return aiResponses.copyright;
+    if (t.includes('trademark')) return aiResponses.trademark;
+    if (t.includes('difference') || t.includes('vs')) return aiResponses.difference;
+    if (t.includes('long') || t.includes('last')) return aiResponses.long;
+    if (t.includes('sell') || t.includes('buy')) return aiResponses.sell;
+    if (t.includes('cost') || t.includes('price')) return aiResponses.cost;
+    if (t.includes('time') || t.includes('fast')) return aiResponses.time;
+    if (t.includes('hash') || t.includes('sha')) return aiResponses.hash;
+    if (t.includes('privacy') || t.includes('private')) return aiResponses.privacy;
+    return aiResponses.default;
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function generateLedgerData() {
+    const assets = ['Neural Net Architecture v3', 'Biotech Fermentation', 'Quantum Error Correction', 'Solar-Storage Modular', 'Low-Latency Edge Inference', 'Translation Model', 'Gene Therapy Vector', 'Wind Turbine Design', 'Crypto Wallet Protocol', 'Medical Imaging AI'];
+    const types = ['Software', 'Biotech', 'Hardware', 'Energy', 'Software', 'Software', 'Biotech', 'Energy', 'Software', 'Software'];
+    return assets.map((asset, i) => ({
+      block: (104882 - i).toLocaleString(),
+      asset: asset,
+      type: types[i],
+      hash: '0x' + Array.from({length: 4}, () => Math.floor(Math.random()*16).toString(16)).join('') + '…' + Array.from({length: 4}, () => Math.floor(Math.random()*16).toString(16)).join(''),
+      time: ((i+1)*2) + ' min ago',
+      details: {
+        owner: '0x' + Array.from({length: 2}, () => Math.floor(Math.random()*16).toString(16)).join('') + '…' + Array.from({length: 3}, () => Math.floor(Math.random()*16).toString(16)).join(''),
+        size: (Math.random()*5+0.5).toFixed(1) + ' MB',
+        jurisdiction: ['Global', 'EU', 'US', 'Asia'][Math.floor(Math.random()*4)],
+        status: 'Sealed'
+      }
+    }));
+  }
+
+  let ledgerData = generateLedgerData();
+
+  function initLedger() {
+    renderLedger();
+    document.getElementById('ledgerSearch').addEventListener('input', e => {
+      state.ledgerSearch = e.target.value.toLowerCase();
+      state.ledgerPage = 0;
+      renderLedger();
+    });
+    document.getElementById('ledgerTypeFilter').addEventListener('change', e => {
+      state.ledgerFilter = e.target.value;
+      state.ledgerPage = 0;
+      renderLedger();
+    });
+    document.querySelectorAll('.ledger-table-ng th.sortable').forEach(th => {
+      th.addEventListener('click', () => {
+        if (state.ledgerSort.col === th.dataset.sort) state.ledgerSort.dir = state.ledgerSort.dir === 'asc' ? 'desc' : 'asc';
+        else { state.ledgerSort.col = th.dataset.sort; state.ledgerSort.dir = 'asc'; }
+        document.querySelectorAll('.ledger-table-ng th').forEach(t => t.classList.remove('sort-asc', 'sort-desc'));
+        th.classList.add('sort-' + state.ledgerSort.dir);
+        state.ledgerPage = 0;
+        renderLedger();
+      });
+    });
+    document.getElementById('ledgerExport').addEventListener('click', () => {
+      const csv = 'Block,Asset,Type,Hash,Time\n' + ledgerData.map(r => r.block + ',' + r.asset + ',' + r.type + ',' + r.hash + ',' + r.time).join('\n');
+      const blob = new Blob([csv], {type: 'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'ledger-export.csv'; a.click();
+      showToast('Exported', 'Ledger data exported as CSV', 'success');
+    });
+  }
+
+  function renderLedger() {
+    let data = ledgerData.slice();
+    if (state.ledgerSearch) data = data.filter(r => r.asset.toLowerCase().includes(state.ledgerSearch) || r.type.toLowerCase().includes(state.ledgerSearch) || r.hash.toLowerCase().includes(state.ledgerSearch));
+    if (state.ledgerFilter !== 'all') data = data.filter(r => r.type === state.ledgerFilter);
+    data.sort((a, b) => {
+      let av = a[state.ledgerSort.col], bv = b[state.ledgerSort.col];
+      if (state.ledgerSort.col === 'block') { av = parseInt(av.replace(/,/g, '')); bv = parseInt(bv.replace(/,/g, '')); }
+      if (av < bv) return state.ledgerSort.dir === 'asc' ? -1 : 1;
+      if (av > bv) return state.ledgerSort.dir === 'asc' ? 1 : -1;
+      return 0;
+    });
+    const perPage = 5, start = state.ledgerPage * perPage, pageData = data.slice(start, start + perPage);
+    const tbody = document.getElementById('ledgerBody');
+    tbody.innerHTML = '';
+    pageData.forEach(row => {
+      const tr = document.createElement('tr');
+      // Responsive: hide type on mobile, time on tablet
+      tr.innerHTML = '<td>' + row.block + '</td><td><strong>' + row.asset + '</strong></td><td class="d-none d-md-table-cell"><span class="tag-ng">' + row.type + '</span></td><td>' + row.hash + '</td><td class="d-none d-lg-table-cell">' + row.time + '</td>';
+      tr.addEventListener('click', () => {
+        const next = tr.nextElementSibling;
+        if (next && next.classList.contains('ledger-detail')) { next.classList.toggle('open'); tr.classList.toggle('expanded'); }
+        else {
+          const detail = document.createElement('tr');
+          detail.className = 'ledger-detail';
+          detail.innerHTML = '<td colspan="5"><div class="p-3" style="background:var(--pigment-wash);"><div class="row g-3"><div class="col-6 col-md-3"><div class="small text-uppercase mb-1" style="color:var(--ink-muted);font-size:0.625rem;letter-spacing:0.08em;">Owner</div><div class="font-monospace small">' + row.details.owner + '</div></div><div class="col-6 col-md-3"><div class="small text-uppercase mb-1" style="color:var(--ink-muted);font-size:0.625rem;letter-spacing:0.08em;">Size</div><div class="font-monospace small">' + row.details.size + '</div></div><div class="col-6 col-md-3"><div class="small text-uppercase mb-1" style="color:var(--ink-muted);font-size:0.625rem;letter-spacing:0.08em;">Jurisdiction</div><div class="font-monospace small">' + row.details.jurisdiction + '</div></div><div class="col-6 col-md-3"><div class="small text-uppercase mb-1" style="color:var(--ink-muted);font-size:0.625rem;letter-spacing:0.08em;">Status</div><div class="font-monospace small" style="color:var(--pigment)">' + row.details.status + '</div></div></div></div></td>';
+          tr.after(detail);
+          setTimeout(() => detail.querySelector('td > div').style.maxHeight = '200px', 10);
+          tr.classList.add('expanded');
+        }
+      });
+      tbody.appendChild(tr);
+    });
+    const totalPages = Math.ceil(data.length / perPage);
+    const pag = document.getElementById('ledgerPagination');
+    pag.innerHTML = '';
+    for (let i = 0; i < totalPages; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-sm rounded-circle ' + (i === state.ledgerPage ? 'btn-dark' : 'btn-outline-secondary');
+      btn.style.cssText = 'width:36px;height:36px;padding:0;display:flex;align-items:center;justify-content:center;font-size:0.8125rem;';
+      btn.textContent = i + 1;
+      btn.addEventListener('click', () => { state.ledgerPage = i; renderLedger(); });
+      pag.appendChild(btn);
+    }
+  }
+
+  function initMarketplace() {
+    document.querySelectorAll('.add-to-cart').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.market-card-ng');
+        addToCart(parseInt(card.dataset.id));
+      });
+    });
+    document.querySelectorAll('.watch-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.market-card-ng');
+        const id = parseInt(card.dataset.id);
+        if (state.watched.includes(id)) {
+          state.watched = state.watched.filter(w => w !== id);
+          btn.textContent = 'Watch';
+          showToast('Removed', 'Item removed from watchlist', 'info');
+        } else {
+          state.watched.push(id);
+          btn.textContent = 'Watched';
+          showToast('Added', 'Item added to watchlist', 'success');
+        }
+        localStorage.setItem('watched', JSON.stringify(state.watched));
+      });
+    });
+  }
+
+  function addToCart(id) {
+    const items = [
+      { id: 1, title: 'Revolutionary AI Algorithm', category: 'Software & AI', price: 5, seller: '0x71…4F2' },
+      { id: 2, title: 'Green Energy Patent', category: 'Energy', price: 10, seller: '0x8A…C19' },
+      { id: 3, title: 'Biotech Process', category: 'Biotech', price: 7.5, seller: '0x3D…77B' },
+      { id: 4, title: 'Quantum Computing', category: 'Hardware', price: 15, seller: '0x9F…001' },
+      { id: 5, title: 'ML Translation Model', category: 'Software & AI', price: 8, seller: '0x55…EE3' },
+      { id: 6, title: 'Blockchain Protocol', category: 'Software & AI', price: 12, seller: '0x2B…9A4' }
+    ];
+    const item = items.find(m => m.id === id);
+    if (!item) return;
+    if (state.cart.find(c => c.id === id)) { showToast('Already in Cart', item.title + ' is already in your cart', 'info'); return; }
+    state.cart.push(item);
+    localStorage.setItem('cart', JSON.stringify(state.cart));
+    renderCart();
+    showToast('Added to Cart', item.title + ' added successfully', 'success');
+  }
+
+  function removeFromCart(id) {
+    state.cart = state.cart.filter(c => c.id !== id);
+    localStorage.setItem('cart', JSON.stringify(state.cart));
+    renderCart();
+  }
+
+  function renderCart() {
+    const body = document.getElementById('cartBody');
+    const badges = [document.getElementById('navCartBadge'), document.getElementById('navCartBadgeDesktop')];
+    const total = document.getElementById('cartTotal');
+    if (state.cart.length === 0) {
+      body.innerHTML = '<div class="text-center py-5 text-muted"><div class="fs-1 mb-3 opacity-25">◈</div><div>Your cart is empty</div><div class="small mt-2 opacity-75">Browse the marketplace to add items</div></div>';
+      badges.forEach(b => { if(b) b.style.display = 'none'; });
+    } else {
+      body.innerHTML = state.cart.map(item => '<div class="d-flex gap-3 p-3 rounded-2 mb-2 border" style="background:var(--surface);transition:transform 0.3s;" onmouseover="this.style.transform=\'translateX(-4px)\'" onmouseout="this.style.transform=\'\'"><div class="flex-grow-1"><div class="fw-semibold small">' + item.title + '</div><div class="small" style="color:var(--ink-muted);">' + item.category + ' • ' + item.seller + '</div></div><div class="fw-bold font-monospace" style="color:var(--pigment);">' + item.price + ' ETH</div><button class="btn btn-link text-danger p-0" onclick="app.removeFromCart(' + item.id + ')" style="text-decoration:none;font-size:1.25rem;line-height:1;">×</button></div>').join('');
+      badges.forEach(b => { if(b) { b.style.display = 'flex'; b.textContent = state.cart.length; } });
+    }
+    const sum = state.cart.reduce((a, b) => a + b.price, 0);
+    total.textContent = sum + ' ETH';
+  }
+
+  function initCart() {
+    const toggle = () => {
+      state.cartOpen = !state.cartOpen;
+      document.getElementById('cartOverlay').classList.toggle('active', state.cartOpen);
+      document.getElementById('cartDrawer').classList.toggle('active', state.cartOpen);
+      if (state.cartOpen) document.body.style.overflow = 'hidden';
+      else document.body.style.overflow = '';
+    };
+    document.getElementById('navCartBtn').addEventListener('click', toggle);
+    document.getElementById('navCartBtnDesktop').addEventListener('click', toggle);
+    document.getElementById('cartOverlay').addEventListener('click', toggle);
+    document.getElementById('cartClose').addEventListener('click', toggle);
+    document.getElementById('cartCheckout').addEventListener('click', () => {
+      if (state.cart.length === 0) { showToast('Cart Empty', 'Add items from the marketplace first', 'error'); return; }
+      showToast('Checkout Started', 'Processing ' + state.cart.length + ' items...', 'success');
+      state.cart = []; localStorage.setItem('cart', '[]'); renderCart(); toggle();
+    });
+    renderCart();
+  }
+
+  function initPricing() {
+    document.querySelectorAll('.pricing-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.pricing-toggle-btn').forEach(b => {
+          b.classList.remove('active', 'btn-dark');
+          b.classList.add('btn-outline-secondary');
+        });
+        btn.classList.remove('btn-outline-secondary');
+        btn.classList.add('active', 'btn-dark');
+        const period = btn.dataset.period;
+        document.querySelectorAll('.price-amount-ng').forEach(el => { el.innerHTML = el.dataset[period]; });
+        state.pricingPeriod = period;
+      });
+    });
+  }
+
+  function selectPlan(tier) {
+    const names = { creator: 'Creator (Free)', studio: 'Studio ($39/mo)', enterprise: 'Enterprise (Custom)' };
+    showToast('Plan Selected', 'You selected the ' + names[tier] + ' plan.', 'success');
+  }
+
+  function initTestimonials() {
+    let current = 0;
+    const quoteEl = document.getElementById('testimonialQuote');
+    const nameEl = document.getElementById('testimonialName');
+    const roleEl = document.getElementById('testimonialRole');
+    const avatarEl = document.getElementById('testimonialAvatar');
+    const dots = document.querySelectorAll('.t-dot-ng');
+    function update(i) {
+      current = i;
+      const t = testimonials[i];
+      quoteEl.style.opacity = '0';
+      nameEl.style.opacity = '0';
+      roleEl.style.opacity = '0';
+      avatarEl.style.opacity = '0';
+      setTimeout(() => {
+        quoteEl.textContent = '"' + t.quote + '"';
+        nameEl.textContent = t.author;
+        roleEl.textContent = t.role;
+        avatarEl.textContent = t.avatar;
+        quoteEl.style.opacity = '1';
+        nameEl.style.opacity = '1';
+        roleEl.style.opacity = '1';
+        avatarEl.style.opacity = '1';
+      }, 400);
+      dots.forEach((d, idx) => {
+        d.classList.toggle('active', idx === i);
+        if (idx === i) {
+          d.style.background = 'var(--pigment)';
+          d.style.borderColor = 'var(--pigment)';
+          d.style.transform = 'scale(1.2)';
+        } else {
+          d.style.background = 'transparent';
+          d.style.borderColor = 'var(--border)';
+          d.style.transform = 'scale(1)';
+        }
+      });
+    }
+    dots.forEach((dot, i) => dot.addEventListener('click', () => update(i)));
+    setInterval(() => update((current + 1) % testimonials.length), 6000);
+  }
+
+  function initFAQ() {
+    document.getElementById('faqSearch').addEventListener('input', e => {
+      const term = e.target.value.toLowerCase();
+      let visible = 0;
+      document.querySelectorAll('.faq-item-ng').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        if (text.includes(term)) { item.classList.remove('hidden'); visible++; }
+        else { item.classList.add('hidden'); item.classList.remove('open'); }
+      });
+      document.getElementById('faqNoResults').style.display = visible === 0 ? 'block' : 'none';
+    });
+    document.querySelectorAll('.faq-trigger-ng').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const item = trigger.parentElement;
+        const open = item.classList.contains('open');
+        document.querySelectorAll('.faq-item-ng').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-trigger-ng').setAttribute('aria-expanded', 'false'); });
+        if (!open) { item.classList.add('open'); trigger.setAttribute('aria-expanded', 'true'); }
+      });
+    });
+  }
+
+  function initFinal() {
+    document.getElementById('finalBtn').addEventListener('click', () => {
+      const email = document.getElementById('finalEmail').value;
+      if (email && email.includes('@')) {
+        document.getElementById('finalBtn').textContent = '✓ Check your inbox!';
+        document.getElementById('finalBtn').style.background = '#15803d';
+        document.getElementById('finalBtn').style.borderColor = '#15803d';
+        setTimeout(() => {
+          document.getElementById('finalBtn').textContent = 'Get Started →';
+          document.getElementById('finalBtn').style.background = '';
+          document.getElementById('finalBtn').style.borderColor = '';
+          document.getElementById('finalEmail').value = '';
+        }, 3000);
+        showToast('Welcome!', 'Check your inbox for next steps.', 'success');
+      } else {
+        document.getElementById('finalEmail').style.borderColor = 'var(--pigment)';
+        setTimeout(() => document.getElementById('finalEmail').style.borderColor = '', 500);
+        showToast('Invalid Email', 'Please enter a valid email address', 'error');
+      }
+    });
+  }
+
+  function initFooter() {
+    document.getElementById('footerSubscribe').addEventListener('click', () => {
+      const email = document.getElementById('footerEmail').value;
+      if (email && email.includes('@')) {
+        document.getElementById('footerSubscribe').textContent = '✓';
+        setTimeout(() => { document.getElementById('footerSubscribe').textContent = '→'; document.getElementById('footerEmail').value = ''; }, 2000);
+        showToast('Subscribed', 'You are now on the newsletter list', 'success');
+      } else { showToast('Invalid Email', 'Please enter a valid email address', 'error'); }
+    });
+  }
+
+  function initScroll() {
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const h = document.documentElement;
+          const scroll = (h.scrollTop || document.body.scrollTop) / ((h.scrollHeight || document.body.scrollHeight) - h.clientHeight);
+          document.getElementById('scrollProgress').style.width = (scroll * 100) + '%';
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  function initKeyboard() {
+    document.addEventListener('keydown', e => {
+      const tag = e.target.tagName.toLowerCase();
+      const isTyping = tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable;
+      if (!isTyping && (e.key === 't' || e.key === 'T')) toggleTheme();
+      if (e.key === 'Escape') {
+        if (state.cartOpen) {
+          state.cartOpen = false;
+          document.getElementById('cartOverlay').classList.remove('active');
+          document.getElementById('cartDrawer').classList.remove('active');
+          document.body.style.overflow = '';
+        }
+        const offcanvas = document.getElementById('mobileMenu');
+        if (offcanvas.classList.contains('show')) {
+          const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvas);
+          if (bsOffcanvas) bsOffcanvas.hide();
+        }
+        const modal = bootstrap.Modal.getInstance(document.getElementById('mainModal'));
+        if (modal) modal.hide();
+      }
+    });
+  }
+
+  function startSimulations() {
+    setInterval(() => {
+      if (Math.random() > 0.7) {
+        const assets = ['Neural Net v4', 'Solar Cell', 'Crypto Protocol', 'ML Pipeline', 'Bio Marker'];
+        const types = ['Software', 'Energy', 'Software', 'Software', 'Biotech'];
+        const idx = Math.floor(Math.random() * assets.length);
+        const newBlock = {
+          block: (104900 + ledgerData.length).toLocaleString(),
+          asset: assets[idx],
+          type: types[idx],
+          hash: '0x' + Array.from({length: 4}, () => Math.floor(Math.random()*16).toString(16)).join('') + '…' + Array.from({length: 4}, () => Math.floor(Math.random()*16).toString(16)).join(''),
+          time: 'just now',
+          details: {
+            owner: '0x' + Array.from({length: 2}, () => Math.floor(Math.random()*16).toString(16)).join('') + '…' + Array.from({length: 3}, () => Math.floor(Math.random()*16).toString(16)).join(''),
+            size: (Math.random()*5 + 0.5).toFixed(1) + ' MB',
+            jurisdiction: 'Global',
+            status: 'Sealed'
+          }
+        };
+        ledgerData.unshift(newBlock);
+        ledgerData.pop();
+        state.ledgerSearch = document.getElementById('ledgerSearch').value.toLowerCase();
+        state.ledgerFilter = document.getElementById('ledgerTypeFilter').value;
+        renderLedger();
+      }
+    }, 5000);
+  }
+
+  // Expose app globally
+  window.app = {
+    selectPlan, removeFromCart
+  };
+
+  // Initialize
+  applyTheme();
+  initHero();
+  initNav();
+  initMobileLayout();
+  initScrollReveal();
+  initFeatures();
+  initLab();
+  initAI();
+  initLedger();
+  initMarketplace();
+  initPricing();
+  initTestimonials();
+  initFAQ();
+  initFinal();
+  initFooter();
+  initCart();
+  initScroll();
+  initKeyboard();
+  startSimulations();
+
+  setTimeout(() => showToast('Welcome', 'NextGen IP Shield is ready. Try the Lab!', 'info'), 2000);
+})();
+</script>
+</body>
+</html>
